@@ -1,0 +1,142 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{ECON 520 Problem Set 5}
+\author{Ruochen (Frank) Zhou 1849821}
+\date{October 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Poisson Estimation}
+An i.i.d. sample is taken from a Poisson distribution, i.e. $f(x;\beta)=\frac{e^{-\beta}\beta^x}{x!}$ for some $\beta>0$ and $x=0,1,2,...$\\\\
+(a)  Given that the moment generating function of the Poisson distribution is $M_X(t)=exp(\beta(e^t-1))$ find the mean and variance of $X_i$.\\\\
+$M'|_{t=0}=\beta(e^t)exp(\beta(e^t-1)|_{t=0}=\beta$\\\\
+$M''|_{t=0}=\beta(e^t)\beta(e^t)exp(\beta(e^t-1)+\beta(e^t)exp(\beta(e^t-1)|_{t=0}=\beta^2+\beta$\\\\
+Thus we have\\
+$\mu_X=E[X]=\beta$\\
+$\sigma^2_X=E[X^2]-E[X]^2=\beta^2+\beta-\beta^2=\beta$\\\\
+(b)  Using the method of moments, find an estimator for $\beta$.
+\begin{itemize}
+    \item Method of Moments\\\\
+    Given a sample $x_1,...,X_n$ from an i.i.d. distribution $X_i\simf(x;\theta)$ where the population parameter $\theta$ belongs to the parameter space $\Theta$.  Typically, the oments of the distribution are functions of this paramters $\theta$\\\\
+    $E[X^i]=\mu_i(\theta)$ $i=1,...,n$\\\\
+    We replace the $j$-th population mean by $\frac{\sum_{i=1}^nX_i^j}{n}$ for $j=1,...,n$ to get \\\\
+    $\frac{\sum_{i=1}^nX_i^j}{n}=\mu_i(\theta)$\\\\
+    The method of moments estimator $\hat{\theta}$ is defined as the solution to this system of equations.
+\end{itemize}
+Here, we can replace the first population mean by $\frac{\sum_{i=1}^nX_i}{n}$ to get \\\\
+$\hat{\beta}=\frac{\sum_{i=1}^nX_i}{n}$\\\\
+(c)  Find the MLE of $\beta$.
+\begin{itemize}
+    \item Likelihood Function\\\\
+    Given a sample $x_1,...,X_n$, the likelihood function of a parameter $\theta$ is defined by\\\\
+    $L(\theta|X_1,...,X_n)=f(X_1,...,X_n,\theta)=\prod_{i=1}^nf(X_i,\theta)$
+    \item Maximum Likelihood Estimator (MLE)\\\\
+    Given a sample $X_1,...,X_n$, the maximum likelihood estimator $\hat{\theta}\in\Theta$ is the parameter value at which $L(\theta|X_1,...,X_n)$ attains a maximum.
+\end{itemize}
+Here we would like to maximize the likelihood function\\ $L(\theta|X_1,...,X_n)=\prod_{i=1}^nf(X_i,\theta)=\prod_{i=1}^n\frac{e^{-\beta}\beta^{X_i}}{X_i!}$\\\\
+As we are concerned only with the maximum, we can perform an order-preserving transformation on our likelihood function to make it easier to work with, and so we may use the log transformation\\
+$log(L(\theta|X_1,...,X_n))=log(\prod_{i=1}^n\frac{e^{-\beta}\beta^{X_i}}{X_i!})=\sum_{i=1}^n-\beta+log(\beta^{X_i})-log(X_i!)$\\\\
+To maximize the likelihood, we take the first order derivative with respect to $\beta$ and solve the FOC\\
+$\frac{\partial}{\partial \beta}log(L(\theta|X_1,...,X_n))=\sum_{i=1}^n-1+\frac{1}{\beta^{X_i}}X_i\beta^{X_i-1}=-n+\frac{\sum_{i=1}^nX_i}{\beta}=0$\\\\
+$\hat{\beta}=\frac{\sum_{i=1}^nX_i}{n}$\\\\
+(d) Are your ML and MoM estimators unbiased?\\\\
+They are indeed unbiased as $E[\frac{\sum_{i=1}^nX_i}{n}]=n\frac{E[X_i]}{n}=\beta$\\\\
+(e) Compute the Cramer-Rao Lower Bound.
+\begin{itemize}
+    \item Cramer-Rao Lower Bound\\\\
+    Let $\bf{X}=(X_1,...,X_n)$ be a sample with pdf $f(\bf{x}|\theta)$ and let $\hat{\theta}=\hat{\theta}(\bf{X})$ be an estimator such that $E_\theta[\hat{\theta}]$ is differentiable in $\theta$ interchangeably with expectation.  If $var_\theta[\hat{\theta}]<\infty$ then\\\\
+    $var_\theta[\hat{\theta}]\geq\frac{(\frac{d}{d\theta}E_\theta[\hat{\theta}])^2}{E_\theta[(\frac{\partial}{\partial\theta}logf(\bf{X}|\theta))^2]}$\\\\
+    Here the denominator is the Fisher information $I(\theta)$
+    \item Fisher Information\\\\
+    We have two ways to computer the Fisher information $I(\theta)$ which are equivalent\\\\
+    i. $nE_\theta[(\frac{\partial}{\partial \theta}logf(X_i|\theta))^2]$\\\\
+    ii. $-nE_\theta[\frac{\partial^2}{\partial \theta^2}logf(X_i|\theta)]$
+\end{itemize}
+Here we have an unbiased estimator and so $E_\theta[\hat{\theta}]=\theta$ and moreover $\frac{d}{d\theta}\theta=1$ and so our CRLB is given by $\frac{1}{I(\theta)}$\\\\
+From our computation of the MLE we have\\ 
+$log(f(X_i|\theta)=-\beta+log(\beta^{X_i})-log(X_i!)$\\\\
+$\frac{\partial}{\partial \theta}logf(X_i|\theta)=-1+\frac{X_i}{\beta}$\\\\
+$\frac{\partial^2}{\partial \theta^2}logf(X_i|\theta)=-\frac{X_i}{\beta^2}$\\\\
+We can compute the Fisher Information\\
+$I(\theta)=-nE_\theta[\frac{\partial^2}{\partial \theta^2}logf(X_i|\theta)]=-n(\frac{-E[X_i]}{\beta^2})=\frac{n}{b}$\\\\
+Thus our CRLB is $\frac{1}{I(\theta)}=\frac{\beta}{n}$\\\\
+(f) Find the variance of the MLE.\\\\
+Since $X_1,...X_n$ are i.i.d. we have\\
+$var[\frac{\sum_{i=1}^nX_i}{n}]=\frac{1}{n^2}n(var[X_i])=\frac{\beta}{n}$\\\\
+(g) Is the MLE efficient?  Is it consistent?  What about the MoM estimator?\\\\
+As the MLE achieves the CRLB, we see that it is efficient.  Moreover, as it is unbiased the variance collapses as $n\rightarrow\infty$, it is consistent.  The same holds for the MoM estimator.  Alternatively, the (weak) LLN shows that our sample mean is a consistent estimator.\\\\
+(h) What is the asymptotic distribution of $log(\hat{\beta})$ where $\hat{\beta}$ denotes the MLE?
+\begin{itemize}
+    \item Central Limit Theorem\\\\
+    Let $X_1,...$ be a sequence of iid random variables with\\\\
+    $E[X_i]=\mu$ and $var[X_i]=\sigma^2<\infty$\\\\
+    Then, $\sqrt{n}(\frac{\bar{X}-\mu}{\sigma})\xrightarrow{d}\mathcal{N}(0,1)$
+    \item Delta Method\\\\
+    Let $X_1,...X_n$ be a sequence of random variables with\\\\
+    $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\\\
+    And let $g$ be a differentiable, non-constant function\\\\
+    Then, $\sqrt{n}(g(X_n)-g(\mu))\xrightarrow{d}\mathcal{N}(0,(g'(\mu))^2\sigma^2)$
+\end{itemize}
+Here we have $X_1,...$ a sequence of iid random variables with $E[X]=\beta$ and finite variance such that $\bar{X}=\hat{\beta}$, Thus, by the CLT we have\\
+$\sqrt{n}(\hat{\beta}-\beta)\xrightarrow{d}\mathcal{N}(0,\beta)$\\\\
+And further, given the non-constant function $g(x)=log(x)$, by the Delta Method, we have\\
+$\sqrt{n}(log(\hat{\beta})-log(\beta))\xrightarrow{d}\mathcal{N}(0,\frac{1}{\beta^2}\beta)$\\\\
+$\Rightarrow log(\hat{\beta})\xrightarrow{d}\mathcal{N}(log(\beta),\frac{1}{n\beta})$\\\\
+\section{Exponential Estimation}
+Let $X_1,X_2,...,X_n$ be i.i.d. with cdf $F_X(x;\lambda)=1-exp(-\lambda x)$ for $0\leq x<\infty$ and $F_X(x;\lambda)=0$ otherwise, and parameter $\lambda>0$.\\\\
+(a) Find the pdf for $X_1$.\\\\
+$f_X(x;\lambda)=\lambda e^{-\lambda x}$\\\\
+(b) Find the MLE of $\lambda$.\\\\
+Here we would like to maximize the likelihood function\\ $L(\lambda|X_1,...,X_n)=\prod_{i=1}^nf(X_i,\lambda)=\prod_{i=1}^n\lambda e^{-\lambda x_i}$\\\\
+As we are concerned only with the maximum, we can perform an order-preserving transformation on our likelihood function to make it easier to work with, and so we may use the log transformation\\
+$log(L(\lambda|X_1,...,X_n))=log(\prod_{i=1}^n\lambda e^{-\lambda x_i})=\sum_{i=1}^nlog(\lambda)-\lambda x_i$\\\\
+To maximize the likelihood, we take the first order derivative with respect to $\lambda$ and solve the FOC\\
+$\frac{\partial}{\partial \lambda}log(L(\lambda|X_1,...,X_n))=\sum_{i=1}^n\frac{1}{\lambda}-x_i=0$\\\\
+$\hat{\lambda}=\frac{n}{\sum_{i=1}^nx_i}$\\\\
+(c) Is the MLE unbiased?  Is it consistent?
+\begin{itemize}
+    \item Jensen's Inequality\\\\
+    Let $\phi(x)$ be a (strictly) convex function. Then\\\\
+    $\phi(E[x])\leq E[\phi(x)]$\\
+    with strict inequality if strictly convex.
+\end{itemize}
+Consider the strictly convex function $\phi(x)=\frac{1}{x}$\\\\
+$E[\hat{\lambda}]=E[\frac{n}{\sum_{i=1}^nx_i}]=E[\phi(\frac{\sum_{i=1}^nx_i}{n})]$\\\\
+Here, by Jensen's inequality and given that for an exponential distribution $E[x]=\frac{1}{\lambda}$, we have\\\\
+$E[\phi(\frac{\sum_{i=1}^nx_i}{n})]>\phi(E[\frac{\sum_{i=1}^nx_i}{n}])=\lambda$\\\\
+Thus, our MLE is biased.  It is consistent as (weak) LLN ensures convergence of the sample mean.\\\\
+(d) Does the MLE reach the CRLB?\\\\
+First, we compute the Fisher Information\\
+$I(\lambda)=-nE_\lambda[\frac{\partial^2}{\partial \lambda^2}logf(X_i|\lambda)]=-nE_\lambda[\frac{-1}{\lambda^2}]=\frac{n}{\lambda^2}$\\\\
+$\frac{\partial}{\partial \lambda}E_\lambda[\hat{\lambda}]=\frac{\partial}{\partial \lambda}E_\lambda[\frac{n}{\sum_{i=1}^nx_i}]$\\\\
+First, we note that the exponential distribution is in fact a special case of the gamma distribution with shape parameter $k=1$ and scale paramter $\theta=\frac{1}{\lambda}$.  As we have $X_1,...X_n$ are i.i.d. with $X_i\sim gamma(1,\frac{1}{\lambda})$ our MLE actually represents an inverse gamma distribution and so we have  $\frac{1}{\sum_{i=1}^nx_i}\sim gamma^{-1}(n,\frac{1}{\lambda})$.  Note further, the inverse gamma distribution has properties\\
+$\mu_x=\frac{\beta}{\alpha-1}$\\
+$\sigma^2_x=\frac{\beta^2}{(\alpha-1)^2(\alpha-2)}$ for $\alpha>2$\\\\
+Thus we have,\\
+$\frac{\partial}{\partial \lambda}E_\lambda[\frac{n}{\sum_{i=1}^nx_i}]=\frac{\partial}{\partial \lambda}n\frac{\frac{1}{\lambda}}{n-1}=\frac{-n}{n-1}\frac{1}{\lambda^2}$\\\\
+Then our CRLB is thus\\
+$\frac{(\frac{d}{d\lambda}E_\lambda[\hat{\lambda}])^2}{I(\lambda)}=\frac{(\frac{-n}{n-1}\frac{1}{\lambda^2})^2}{\frac{n}{\lambda^2}}=\frac{n}{(n-1)^2}\frac{1}{\lambda^2}$\\\\
+The variance of our MLE is given by\\ 
+$var[\frac{n}{\sum_{i=1}^nx_i}]=n^2var[\frac{1}{\sum_{i=1}^nx_i}]=n^2\frac{(\frac{1}{\lambda})^2}{(n-1)^2(n-2)}=\frac{n}{n-2}\frac{n}{(n-1)^2}\frac{1}{\lambda^2}$\\\\
+And so we see that our MLE fails to reach the CLRB, it is in fact larger by a factor of $\frac{n}{n-2}$.\\\\
+(e) Is the MLE efficient?  Is the MLE asymptotically efficient?\\\\
+As the MLE failed to reach the CRLB it is not efficient.  However, we see that as $n\rightarrow\infty$ the value $\frac{n}{n-2}\rightarrow1$ and so the MLE is asymptotically efficient.\\\\
+(f) Derive the asymptotic distribution of the MLE.\\\\
+Here we have $X_1,...$ a sequence of iid random variables with $E[X]=\frac{1}{\lambda}$ and finite variance. Thus, by the CLT we have\\
+$\sqrt{n}(\bar{X}-\frac{1}{\lambda})\xrightarrow{d}\mathcal{N}(0,\frac{1}{\lambda^2})$\\\\
+And further, given the non-constant function $g(x)=\frac{1}{x}$ by the Delta Method, we have\\
+$\sqrt{n}(\frac{1}{\bar{X}}-\lambda)\xrightarrow{d}\mathcal{N}(0,\lambda^2)$\\\\
+$\Rightarrow \frac{1}{\bar{X}}\xrightarrow{d}\mathcal{N}(\lambda,\frac{\lambda^2}{n})$\\\\
+\section{Binomial Estimation}
+Let $X_1,X_2,...,X_n$ be a random sample, where $P(X_i=1)=p$ and $P(X_i=0)=1-p$.\\\\
+(a) Consider two estimators of $p$ given by $\hat{p}_1=X_1$ and $\hat{p}_2=\bar{X}$.  Show that both estimators are unbiased.\\\\
+$E[\hat{p}_1]=E[X_1]=p$ and $E[\hat{p}_2]=E[\bar{X}]=p$ and thus both estimators are unbiased.\\\\
+(b) Intuitively, $\hat{p}_2$ is a better estimator than $\hat{p}_1$ because $\hat{p}_1$ does not contain any information about the parameter contained in trails 2 through $n$.  Verify that speculation by comparing the variances of the two estimators.\\\\
+$var[\hat{p}_1]=var[X_1]=p(1-p)$\\
+$var[\hat{p}_2]=var[\frac{\sum_{i=1}^nX_i}{n}]=\frac{1}{n^2}var[\sum_{i=1}^nX_i]=\frac{n(p(1-p))}{n^2}=\frac{p(1-p)}{n}$\\\\
+Thus we see that $\hat{p}_2$ indeed has lower variance.  
+\end{document}
