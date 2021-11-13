@@ -1,0 +1,187 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{ECON 520 Problem Set 4}
+\author{Ruochen Zhou 1849821}
+\date{October 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Distribution of Sample Mean}
+\newline Let $X_1,...,X_n$ be iid distributed with mean $\mu$ and variance $\sigma^2$.
+\newline
+\newline (a) What is the approximate distribution of $\bar{X}=\frac{\sum_{i=1}^nX_i}{n}$?
+\newline
+\newline \emph{Since $X_1,...X_n$ are independent}
+\newline $E[\bar{X}]=E[\frac{\sum_{i=1}^nX_i}{n}]=\frac{\sum_{i=1}^nE[X_i]}{n}=\frac{n\mu}{n}$\\
+\newline $\Rightarrow E[\bar{x}]=\mu$\\
+\newline First consider $X_1,X_2$ independent with mean $\mu_i$ and variance $\sigma_i^2$\\
+\newline \emph{Since $X_1,X_2$ are independent}
+\newline $var[X_1+X_2]=E[(X_1+X_2)^2]-E[X_1+X_2]^2$\\
+\newline $=E[X_1^2]+E[2X_1X_2]+E[X_2^2]-(\mu_1+\mu_2)^2$\\
+\newline $=E[X_1^2]+2\mu_1\mu_2+E[X_2^2]-\mu_1^2-2\mu_1\mu_2-\mu_2^2$\\
+\newline $=E[X_1^2]-E[X_1]^2+E[X_2^2]-E[X_2]^2$\\
+\newline (1) $\Rightarrow var[X_1+X_2]=\sigma_1^2+\sigma_2^2$\\
+\newline (2) It follows that $var[\sum_{i=1}^nX_i]=n\sigma^2$\\
+\newline \emph{The proof follows inductively}
+\newline From (1), we have our base case where $n=2$
+\newline Let $Z_p$ represent the sum of the first $p$ independent normal RVs, $X_i$ $i=1,...,p$ with the same variance $\sigma^2$
+\newline Consider the random variable $Z_{p+1}=Z_p+X_{p+1}$ where by construction $Z_p,X_{p+1}$ are independent.
+\pagebreak
+\newline (3) Now suppose $var[Z_p]=p\sigma^2$
+\newline \emph{from (1)}
+\newline $var[Z_{p+1}]=var[Z_p+X_{p+1}]=\sigma^2_{Z_p}+\sigma^2_{X_{p+1}}=p\sigma^2+\sigma^2=(p+1)\sigma^2$
+\newline Thus (3) must be true for all $p$\\
+\newline $var[\bar{X}]=var[\frac{\sum_{i=1}^nX_i}{n}]=\frac{1}{n^2}n\sigma^2$\\
+\newline $\Rightarrow var[\bar{X}]=\frac{\sigma^2}{n}$\\
+\newline Thus $\bar{X}\sim\mathcal{N}(\mu,\frac{\sigma^2}{n})$\\
+\newline Alternatively,
+\begin{itemize}
+    \item Central Limit Theorem
+    \newline Let $X_1,...$ be a sequence of iid random variables with\\
+    \newline $E[X_i]=\mu$ and $var[X_i]=\sigma^2<\infty$\\
+    \newline Then, $\sqrt{n}(\frac{\bar{X}-\mu}{\sigma})\xrightarrow{d}\mathcal{N}(0,1)$
+\end{itemize}
+\newline By the Central Limit Theorem, we have\\
+\newline $\Rightarrow \sqrt{n}(\frac{\bar{X}-\mu}{\sigma})\xrightarrow{d}\mathcal{N}(0,1)$\\
+\newline $\Rightarrow \bar{X}\xrightarrow{d}\mathcal{N}(\mu,\frac{\sigma^2}{n})$\\
+\newline 
+\newline (b) Derive the approximate distribution to $exp(\bar{X})$.
+\newline 
+\begin{itemize}
+    \item Delta Method
+    \newline Let $X_1,...X_n$ be a sequence of random variables with\\
+    \newline $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\
+    \newline And let $g$ be a differentiable, non-constant function\\
+    \newline Then, $\sqrt{n}(g(X_n)-g(\mu))\xrightarrow{d}\mathcal{N}(0,(g'(\mu))^2\sigma^2)$
+\end{itemize}
+\newline \emph{From part (a)}
+\newline $\sqrt{n}(\bar{X}-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\
+\newline We can apply the Delta Method on $\bar{X}_n$ with the differentiable and non-constant function $g(x)=exp(x)$\\
+\newline $\Rightarrow \sqrt{n}(exp(\bar{X})-exp(\mu))\xrightarrow{d}\mathcal{N}(0,(exp(\mu))^2\sigma^2)$\\
+\newline $\Rightarrow exp(\bar{X})\xrightarrow{d}\mathcal{N}(exp(\mu),\frac{exp(2\mu)\sigma^2}{n})$
+\pagebreak
+\section{Convergence in Probability}
+\newline Show that if $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$ then $X_n\xrightarrow{p}\mu$.
+\newline 
+\newline $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\
+\newline $\Rightarrow (X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\frac{\sigma^2}{n})$\\
+\newline $\Rightarrow X_n\xrightarrow{d}\mathcal{N}(\mu,\frac{\sigma^2}{n})$\\
+\newline \emph{Since $\frac{\sigma^2}{n}\rightarrow0$ as $n\rightarrow\infty$, for any $\delta$, $n$ suff. large $\Rightarrow P(|X_n-\mu|>\epsilon)<\delta$}\\
+\newline $\Rightarrow \lim\limits_{n\to\infty}P(|X_n-\mu|\geq\epsilon)=0$\\
+\newline $\Rightarrow X_n\xrightarrow{p}\mu$
+\newline
+\section{Bernoulli Random Variables}
+\newline Let $X_1,...,X_n$ be iid Bernoulli random variables with parameter $0\leq p\leq1$. 
+\newline (a) Establish the asymptotic limit of $\sqrt{n}(\bar{X}-p)$.
+\begin{itemize}
+    \item Central Limit Theorem
+    \newline Let $X_1,...$ be a sequence of iid random variables with\\
+    \newline $E[X_i]=\mu$ and $var[X_i]=\sigma^2<\infty$\\
+    \newline Then, $\sqrt{n}(\frac{\bar{X}-\mu}{\sigma})\xrightarrow{d}\mathcal{N}(0,1)$
+\end{itemize}
+\newline For a Bernoulli random variable $X$ we have
+\newline \emph{By definition}
+\newline $E[X]=p(1)+(1-p)(0)=p$\\
+\newline $var[X]=E[X^2]-E[X]^2=p(1^2)+(1-p)(0^2)-p^2=p(1-p)=pq$\\
+\newline And so, $X_1,...,X_n$ is a sequence of iid random variables with $E[X_i]=p$ and $var[X_i]=pq<\infty$, then by the Central Limit Theorem,\\
+\newline $\sqrt{n}(\frac{\bar{X}-p}{\sqrt{pq}})\xrightarrow{d}\mathcal{N}(0,1)$\\
+\newline $\Rightarrow \sqrt{n}(\bar{X}-p)\xrightarrow{d}\mathcal{N}(0,pq)$\\
+\newline 
+\pagebreak
+\newline (b) Establish the asymptotic limit of $\sqrt{n}(\bar{X}(1-\bar{X})-p(1-p))$ for $p\neq\frac{1}{2}$.
+\begin{itemize}
+    \item Delta Method
+    \newline Let $X_1,...X_n$ be a sequence of random variables with\\
+    \newline $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\
+    \newline And let $g$ be a differentiable, non-constant function\\
+    \newline Then, $\sqrt{n}(g(X_n)-g(\mu))\xrightarrow{d}\mathcal{N}(0,(g'(\mu))^2\sigma^2)$
+\end{itemize}
+\newline We have already established that $\bar{X_n}$ is a sequence of random variables such that $\sqrt{n}(\bar{X}-p)\xrightarrow{d}\mathcal{N}(0,p(1-p))$ and thus we can apply the Delta Method using the differentiable and non-constant function $g(x)=x(1-x)$\\
+\newline $\Rightarrow \sqrt{n}(g(\bar{X})-g(p))\xrightarrow{d}\mathcal{N}(0,(g'(p))^2p(1-p))$\\
+\newline \emph{We have}
+\newline $g'(p)=1-2x|_{x=p}=1-2p$
+\newline $g(\bar{X})=\bar{X}(1-\bar{X})$
+\newline $g(p)=p(1-p)$\\
+\newline $\Rightarrow \sqrt{n}(\bar{X}(1-\bar{X})-p(1-p))\xrightarrow{d}\mathcal{N}(0,(1-2p)^2p(1-p))$\\
+\newline 
+\newline (c) Establish the asymptotic limit of $n(\bar{X}(1-\bar{X})-p(1-p))$ for $p=\frac{1}{2}$.
+\begin{itemize}
+    \item Second Order Delta Method
+    \newline Let $X_1,...X_n$ be a sequence of random variables with\\
+    \newline $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\
+    \newline And let $g$ be a twice-differentiable, non-constant function such that 
+    \newline $g'(\mu)=0$ and $g''(\mu)$ exists and non-zero\\
+    \newline Then, $n(g(X_n)-g(\mu))\xrightarrow{d}\sigma^2\frac{g''(\mu)}{2}\chi^2_1$
+\end{itemize}
+\newline We can apply the Second Order Delta Method on $\bar{X}_n$ using the twice-differentiable, non-constant function $g(x)=x(1-x)$\\
+\newline \emph{We have}
+\newline $g'(p)=1-2p|_{p=1/2}=0$
+\newline $g''(p)=-2|_{p=1/2}=-2$
+\newline $g(\bar{X})=\bar{X}(1-\bar{X})$
+\newline $g(p)=p(1-p)|_{p=1/2}=\frac{1}{4}$
+\newline $sigma^2=p(1-p)|_{p=1/2}=\frac{1}{4}$\\
+\newline $\Rightarrow n(\bar{X}(1-\bar{X})-\frac{1}{4})\xrightarrow{d}-\frac{1}{4}\chi^2_1$
+\pagebreak
+\section{Asymptotic Theory}
+\newline Let $X_1,...,X_n$ be iid $\mathcal{N}(0,\sigma^2)$.  Define $\bar{X_n}=\frac{\sum_{i=1}^nX_i}{n}$ and $S_n=\frac{\sum_{i=1}^nX_i^2}{n}$.  Using asymptotic theory, derive the approximate distributions to the following statistics.
+\newline
+\newline (a) $log(S_n)$
+\newline 
+\newline Consider $X\sim\mathcal{N}(0,\sigma^2)$ with pdf\\
+\newline $f_X(x)=\frac{1}{\sqrt{2\pi\sigma^2}}exp(\frac{-x^2}{2\sigma^2})$\\
+\newline The moment generating function of $X$ is given by\\
+\newline $M_X(t)=E[e^tX]=\int_{-\infty}^{\infty}exp(tx)f_X(x)=\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{\infty}exp(tx)exp(\frac{-x^2}{2\sigma^2})$\\
+\newline $=\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{\infty}exp(\frac{-(x^2-2\sigma^2tx)}{2\sigma^2})$\\
+\newline $=\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{\infty}exp(\frac{-(x^2-2\sigma^2tx+\sigma^4t^2-\sigma^4t^2)}{2\sigma^2})$\\
+\newline $=\frac{1}{\sqrt{2\pi\sigma^2}}\int_{-\infty}^{\infty}exp(\frac{-(x-\sigma^2t)^2}{2\sigma^2})exp(\frac{\sigma^2t^2}{2})$\\
+\newline $=exp(\frac{\sigma^2t^2}{2})\int_{-\infty}^{\infty}\frac{1}{\sqrt{2\pi\sigma^2}}exp(\frac{-(x-\sigma^2t)^2}{2\sigma^2})$\\
+\newline \emph{The integral is the pdf of $X\sim\mathcal{N}(\sigma^2t,\sigma^2)$ and thus evaluates to 1}
+\newline $\Rightarrow M_X(t)=exp(\frac{\sigma^2t}{2})$\\
+\newline Now consider $X^2$\\
+\newline $E[X^2]=var[X]+E[X]^2=\sigma^2$\\
+\newline We can use the moment generating function of $X$ to compute the 4th moment of $X$ in order to compute $var[X^2]$\\
+\newline $M'=\sigma^2texp(\frac{\sigma^2t}{2})$\\
+\newline $M''=\sigma^2exp(\frac{\sigma^2t}{2})+\sigma^4t^2exp(\frac{\sigma^2t}{2})$\\
+\newline $M^3=\sigma^4texp(\frac{\sigma^2t}{2})+2t\sigma^4exp(\frac{\sigma^2t}{2})+...$\\
+\newline $M^4=\sigma^4exp(\frac{\sigma^2t}{2})+2\sigma^4exp(\frac{\sigma^2t}{2})+...$\\
+\newline $\Rightarrow E[X^4]=\frac{d^4}{dt^4}M_X(t)|_{t=0}=\sigma^4(1)+2\sigma^4(1)+0+...=3\sigma^4$\\
+\newline $\Rightarrow var[X^2]=E[x^4]-E[x^2]^2=3\sigma^4-\sigma^4=2\sigma^4$\\
+\newline We can now apply the central limit theorem to the sequence of iid random variables $Z_1,...$, $Z_i=X_i^2$\\
+\newline $\Rightarrow \sqrt{n}(\bar{Z}-\sigma^2)\xrightarrow{d}\mathcal{N}(0,2\sigma^4)$\\
+\newline We can then apply the Delta Method on $\bar{Z_n}$ using the differentiable and non-constant function $g(x)=log(x)$ to get\\
+\newline $\Rightarrow \sqrt{n}(log(\bar{Z})-log(\sigma^2))\xrightarrow{d}\mathcal{N}(0,2)$\\
+\newline $\Rightarrow log(\bar{Z})\sim\mathcal{N}(log(\sigma^2),\frac{2}{n})$\\
+\newline \emph{Note $\bar{Z}$ is equivalent to $S_n$}
+\newline $\Rightarrow log(S_n)\sim\mathcal{N}(log(\sigma^2),\frac{2}{n})$\\
+\newline 
+\newline (b) $log(1+S_n)$
+\newline 
+\newline \emph{From part (a)}
+\newline We can apply the Delta Method on $\bar{Z_n}$ using the differentiable and non-constant function $g(x)=log(1+x)$ to get\\
+\newline $\Rightarrow \sqrt{n}(log(1+\bar{Z})-log(1+\sigma^2))\xrightarrow{d}\mathcal{N}(0,(\frac{1}{1+\sigma^2})^22\sigma^4)$\\
+\newline $\Rightarrow log(1+S_n)\sim\mathcal{N}(log(1+\sigma^2),\frac{2\sigma^4}{(1+2\sigma^2)^2n})$\\
+\newline 
+\newline (c) $\bar{X}_n^2/S_n$
+\newline 
+\newline Consider the t-statistic which converges to $\mathcal{N}(0,1)$ and $n\rightarrow\infty$.\\
+\newline $\sqrt{n}\frac{\bar{X}}{\sqrt{S}}\xrightarrow{d}\mathcal{N}(0,1)$\\
+\begin{itemize}
+    \item Second Order Delta Method
+    \newline Let $X_1,...X_n$ be a sequence of random variables with\\
+    \newline $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\
+    \newline And let $g$ be a twice-differentiable, non-constant function such that 
+    \newline $g'(\mu)=0$ and $g''(\mu)$ exists and non-zero\\
+    \newline Then, $n(g(X_n)-g(\mu))\xrightarrow{d}\sigma^2\frac{g''(\mu)}{2}\chi^2_1$
+\end{itemize}
+\newline We can apply the Second Order Delta Method on $Z_n=\frac{\bar{X}_n}{\sqrt{S_n}}$ using the twice-differentiable, non-constant function $g(x)=x^2$\\
+\newline $g'(0)=2x|_{x=0}=0$
+\newline $g''(0)=2$
+\newline $g(Z_n)=\bar{X}^2/S$\\
+\newline $\Rightarrow n(g(Z_n)-g(\mu))\xrightarrow{d}\sigma^2\frac{g''(\mu)}{2}\chi^2_1$\\
+\newline $\Rightarrow n(\bar{X}^2/S)\xrightarrow{d}\chi^2_1$\\
+\newline $\Rightarrow \bar{X}^2/S\sim\frac{\chi^2_1}{n}$
+\end{document}
