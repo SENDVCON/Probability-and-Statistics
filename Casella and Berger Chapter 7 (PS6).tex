@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{ECON 520 Problem Set 6}
+\author{Ruochen Zhou 1849821}
+\date{November 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Likelihood Ratio}
+Assume an i.i.d. sample $X_1,...,X_n$ from the $N(0,\sigma^2)$ distribution.\\\\
+(a) Show that the likelihood ratio test for the test $H_0:\sigma=\sigma_0$ vs $H_1:\sigma=\sigma_1$ where $\sigma_1>\sigma_0$ has the rejection region $\{\sum_{i=1}^kx_i^2\geq c\}$\\\\
+The likelihood ratio test statistic is given by $\lambda(\textbf{X})$ and has the rejection region $\lambda(\textbf{X})<C$ such that\\\\
+$\lambda(\textbf{X})=\dfrac{sup_{\theta\in\Theta_0}L(\theta|\textbf{X})}{sup_{\theta\in\Theta_1}L(\theta|\textbf{X})}$\\\\
+$=\dfrac{\prod_{i=1}^n\frac{1}{\sqrt{2\pi\sigma_0^2}}exp(\dfrac{-x_i^2}{2\sigma_0^2})}{\prod_{i=1}^n\frac{1}{\sqrt{2\pi\sigma_1^2}}exp(\dfrac{-x_i^2}{2\sigma_1^2})}$\\\\
+$=\dfrac{\sigma_1^nexp(\dfrac{-\sum_{i=1}^nx_i^2}{2\sigma_0^2})}{\sigma_0^nexp(\dfrac{-\sum_{i=1}^nx_i^2}{2\sigma_1^2})}$\\\\
+$=\dfrac{\sigma_1^n}{\sigma_0^n}exp(\dfrac{\sum_{i=1}^nx_i^2}{2\sigma_1^2}-\dfrac{\sum_{i=1}^nx_i^2}{2\sigma_0^2})$\\\\
+$=\dfrac{\sigma_1^n}{\sigma_0^n}exp(\dfrac{(\sum_{i=1}^nx_i^2)(\sigma_0^2-\sigma_1^2)}{2\sigma_0^2\sigma_1^2})<C$\\\\
+$\Rightarrow exp(\dfrac{(\sum_{i=1}^nx_i^2)(\sigma_0^2-\sigma_1^2)}{2\sigma_0^2\sigma_1^2})<\dfrac{\sigma_0^n}{\sigma_1^n}C$\\\\
+$\Rightarrow\dfrac{(\sum_{i=1}^nx_i^2)(\sigma_0^2-\sigma_1^2)}{2\sigma_0^2\sigma_1^2}<log(\dfrac{\sigma_0^n}{\sigma_1^n}C)$\\
+Note here that $\sigma_0^2-\sigma_1^2<0$\\\\
+$\Rightarrow\sum_{i=1}^nx_i^2>\dfrac{2\sigma_0^2\sigma_1^2}{\sigma_0^2-\sigma_1^2}log(\dfrac{\sigma_0^n}{\sigma_1^n}C)$\\
+Note here the RHS is a constant.\\\\
+(b) Show how we can calculate $c$ (i.e. work out the distribution you would use, suggest how you would determine $c$)\\\\
+Given $X_i^2,...,X_n^2$ a sequence of random variables with $E[X_i^2]=\sigma^2$ and finite $Var[X_i^2]=2\sigma^4$, we can apply the Central Limit Theorem to get\\\\
+$\sqrt{n}(\dfrac{\bar{X_i^2}-\mu_{X_i^2}}{\sigma_{X_i^2}})\xrightarrow{d}\mathcal{N}(0,1)$\\\\
+And so, given $\sum_{i=1}^nx_i^2>c$ we have \\\\
+$\Rightarrow \sqrt{n}(\dfrac{\frac{\sum_{i=1}x_i^2}{n}-\sigma^2}{\sqrt{2}\sigma^2})>\sqrt{n}(\dfrac{\frac{c}{n}-\sigma^2}{\sqrt{2}\sigma^2})=c'$\\\\
+$\Rightarrow Z\sim\mathcal{N}(0,1)>c'$\\\\
+Thus we may can just pick $c'$ accordingly given this standard normal distribution. 
+\section{Nuisance Parameter}
+A special case of the normal family is one in which the mean and the variance are related, that is, $\mathcal{N}(\theta,a\theta)$ for some constant $a\geq0$.  If we are interested in testing this relationship, regardless of the value of $\theta$, we are faced with a nuisance parameter.  Find the LRT of $H_0:a=1$ vs $H_1:a\neq1$ based on a same $X1,...,X_n$ from a $\mathcal{N}(\theta,a\theta)$ when $\theta$ is unknown.\\\\
+$\lambda(\textbf{X})=\dfrac{sup_{a=1}L(a,\theta|\textbf{X})}{sup_{a\neq1}L(a,\theta|\textbf{X})}<C$\\\\
+\pagebreak\\\\
+$=\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi\theta}}exp(\dfrac{-(x_i-\theta)^2}{2\theta})$\\\\
+$=(\dfrac{1}{\sqrt{2\pi\theta}})^nexp(\dfrac{\sum_{i=1}^n-(x_i^2-\theta)^2}{2\theta})$\\\\
+
+
+\end{document}
