@@ -1,0 +1,166 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{ECON 520 Practice Problems}
+\author{Ruochen (Frank) Zhou }
+\date{October 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Exponential Distribution}
+\begin{itemize}
+    \item PDF of the Exponential Distribution\\\\
+    $\lambda e^{-\lambda x}$ for $x\in[0,\infty)$\\
+    \item Theorem 2.1.5\\\\
+    Let $X$ have pdf $f_X(x)$ and let $Y=g(X)$, where $g$ is a monotone function. Let $\mathcal{X}=\{x|f_X(x)>0\}$ and $\mathcal{Y}=\{y|y=g(x),x\in\mathcal{X}\}$.  Suppose that $f_X(x)$ is continuous on $\mathcal{X}$ and that $g^{-1}(y)$ has a continuous derivative on $\mathcal{Y}$.  Then the pdf of $Y$ is given by\\\\
+    $f_Y(y)=f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)|, y\in\mathcal{Y}$, 0 otherwise\\
+    \item Example Exercise\\\\
+    Let $X$ have a pdf $f_X(x)=1$ for $0<x<1$.  Let $Y=-\frac{ln(X)}{\lambda}$.\\\\
+    (a) Find the pdf of Y.  Do you recognize this distribution?\\\\
+    Since Y is a decreasing monotonic transform, $f_X(x)$ is continuous on $(0,1)$ and $g^{-1}(y)=e^{-\lambda y}$ has a continuous derivative on $(0,\infty)$ we can apply Theorem 2.1.5\\\\
+    $f_Y(y) = f_X(g^{-1}(y))|\frac{d}{dy}g^{-1}(y)=(1)|-\lambda e^{-Y\lambda}|=\lambda e^{-\lambda Y} y\in(0,\infty)$\\\\
+    This is an exponential distribution.\\\\
+    (b) Derive the moment generating function of $Y$.\\\\
+    The moment generating function of $Y$ is given by\\\\
+    $M_Y(t)=E[e^{tY}]=\int_0^\infty e^{ty}f_Y(y)dy$\\\\
+    $=\int_0^\infty e^{ty}\lambda e^{-\lambda y}dy$\\\\
+    $=\int_0^\infty\lambda\frac{\lambda-t}{\lambda-t}e^{y(t-\lambda)}dy$\\\\
+    $=\frac{\lambda}{\lambda-t}\int_0^\infty\ (\lambda-t)e^{y(t-\lambda)}dy$\\\\
+    \emph{The integral is of an exponential distribution and thus evaluates to 1}\\
+    $=\frac{\lambda}{\lambda-t}$\\\\
+    (c) Use the moment generating function to derive the mean and variance of $Y$\\\\
+    $E[Y]=M_Y^1(t=0)=\frac{\lambda}{(\lambda-t)^2}|_{t=0}=\frac{1}{\lambda}$\\\\
+    $E[Y^2]=M_Y^2(t=0)=\frac{2\lambda}{(\lambda-t)^3}|_{t=0}=\frac{2}{\lambda^2}$\\\\
+    $var[Y]=E[Y^2]-E[Y]^2=\frac{2}{\lambda^2}-\frac{1}{\lambda^2}=\frac{1}{\lambda^2}$\\\\
+\end{itemize}
+\pagebreak
+\section{Multivariate Random Variables}
+\begin{itemize}
+    \item Theorem: Law of Iterated Expectations\\\\
+    For any random variables $X$ and $Y$ and any function $g$ it holds $E[g(X)]=E[E[g(X)|Y]$.\\\\
+    \emph{proof}\\
+    $E[g(X)]=\int\int g(x)f_{XY}(x,y)dxdy$\\\\
+    $=\int(\int g(x)f_{X|Y}(x)dx)f_Y(y)dy$\\\\
+    $=\int E[g(X)|Y=y]f_Y(y)dy$\\\\
+    $=E[E[g(X)|Y]]$\\
+    \item Irrelevant Conditioning Variables\\\\
+    For any random variables $X$ and $Y$, if $X$ and $Y$ are independent, then $E[Y|X]=E[Y]$\\
+    \emph{proof}
+    Given that $X$ and $Y$ independent implies $f_{XY}(x,y)=f_X(x)f_Y(y)$ i.e. the product of the marginal distributions is equal to the joint distribution, we have\\\\
+    $E[Y|X]=\dfrac{f_{XY}(x,y)}{f_X(x)}=\dfrac{f_X(x)f_Y(y)}{f_X(x)}=f_Y(y)$\\
+    \item Known Factors\\\\
+    Given knowledge of $X=x$, $E[g(X)|X=x]=g(x)$\\
+    \item Theorem: Conditional Expectation Minimizes MSE\\\\
+    For any function $g$ it holds\\\\
+    $E[|Y-E[Y|X]|^2]\leq E[|Y-g(X)|^2]$\\\\
+    \emph{proof}\\
+    $E[|Y-g(X)|^2]=[|(Y-E[Y|X])+(E[Y|X]-g(X))|^2]$\\\\
+    $=E[|Y-E[Y|X]|^2]+E[|E[Y|X]-g(X)|^2]+2E[(Y-E[Y|X])(E[Y|X]-g(X)]$\\\\
+    Here we have by the Law of Iterated Expectation\\
+    $E[(Y-E[Y|X])(E[Y|X]-g(X)]=E[E[(Y-E[Y|X])(E[Y|X]-g(X)]|X]$\\\\
+    $E[E[Y|X]-g(X)|X]E[E[Y]-E[Y|X]|X]=0$\\\\
+    And we have\\
+    $E[|E[Y|X]-g(X)|^2]\geq0$\\\\
+    $\Rightarrow E[|Y-E[Y|X]|^2]\leq E[|Y-g(X)|^2]$\\
+    \item Definition: Covariance\\\\
+    The covariance of $X$ and $Y$ is given by\\\\
+    $COV(X,Y)=E[(X-\mu_X)(Y-\mu_Y)]$\\\\
+    $=E[XY]-E[X\mu_Y]-E[Y\mu_X]+E[\mu_X\mu_Y]$\\\\
+    $=E[XY]-E[Y]E[X]$\\
+    \item: Definition: Correlation\\\\
+    The correlation coefficient between $X$ and $Y$ is given by\\\\
+    $\rho_{XY}=\dfrac{Cov(X,Y)}{\sigma_X\sigma_Y}$\\
+    \item Theorem: Independence Implies Zero Covariance\\\\
+    If $X$ and $Y$ are independent random variables, the $Cov(X,Y)=0$\\\\
+    \emph{proof}\\
+    $COV(X,Y)=E[XY]-E[Y]E[X]=\int\int xyf_{XY}(x,y)dydx-E[Y]E[X]$\\\\
+    $=\int(\int xf_X(x)dx)yf_Y(y)dy-E[Y]E[X]$\\\\
+    $=E[X]\int yf_Y(y)dy-E[Y]E[X]$\\\\
+    $=E[X]E[y]-E[Y]E[X]=0$\\\\
+    \item Theorem: Jointly Normally Distributed and Zero Correlation Implies Independence\\\\
+    In general, we have $X$ and $Y$ independent implies mean independence implies zero correlation.  However the converse is generally not true.\\\\
+    However, in the case of jointly normally distributed random variables $X$ and $Y$, $\rho_{XY}=0$ implies $X$ and $Y$ are independent\\\\
+    \emph{proof}\\
+    If $X$ and $Y$ are jointly normally distributed and $\rho_{XY}=0$ then\\\\
+    $f_{XY}(x,y)=f_X(x)f_Y(y)$\\\\
+    (To show this is quite laborious and thus we omit)\\
+\end{itemize}
+\pagebreak
+\section{Asymptotic Analysis}
+\begin{itemize}
+    \item Theorem: Weak Law of Large Numbers\\\\
+    Let $X_1,...,X_n$ be a sequence of independent, identically distribued random variables with mean $\mu$ and finite variance $\sigma^2$.  Then,\\\\
+    $\bar{X}\xrightarrow{p}\mu$\\\\
+    \emph{proof}\\
+    By Chebyshev's Inequality\\\\
+    $P(|\bar{X}-\mu|\geq\epsilon)\leq\frac{E[(\bar{X}-\mu)^2]}{\epsilon^2}]$\\\\
+    $\Rightarrow P(|\bar{X}-\mu|\geq\epsilon)\leq\frac{var[\bar{X}]}{\epsilon^2}$\\\\
+    $\Rightarrow P(|\bar{X}-\mu|\geq\epsilon)\leq\frac{\sigma^2}{n\epsilon^2}$\\\\
+    $\Rightarrow\lim\limits_{n\to\infty}P(|\bar{X}-\mu|\geq\epsilon)=0$\\
+    \item Theorem: Continuous Mapping Theorem\\\\
+    Suppose $g$ is a continuous function.  Then,\\\\
+    $X_n\xrightarrow{p}X\Rightarrow g(X_n)\xrightarrow{p}g(X)$\\\\
+    $X_n\xrightarrow{d}X\Rightarrow g(X_n)\xrightarrow{d}g(X)$\\
+    \item Theorem: Central Limit Theorem\\\\
+    Let $X_1,...X_n$ be a sequence of independent, identically distributed random variables with $E[X]=\mu$ and finite $var[X]=\sigma^2$.  Then,\\\\
+    $\sqrt{n}\frac{\bar{X}-\mu}{\sigma^2}\xrightarrow{d}\mathcal{N}(0,1)$\\
+    \item Theorem: Delta Method\\\\
+    Let $X_1,...X_n$ be a sequence of random variables with\\\\
+    $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\\\
+    And let $g$ be a differentiable, non-constant function\\\\
+    Then, $\sqrt{n}(g(X_n)-g(\mu))\xrightarrow{d}\mathcal{N}(0,(g'(\mu))^2\sigma^2)$\\
+    \item Theorem: Second Order Delta Method\\\\
+    Let $X_1,...X_n$ be a sequence of random variables with\\\\
+    $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\\\
+    And let $g$ be a twice-differentiable, non-constant function such that\\
+    $g'(\mu)=0$ and $g''(\mu)$ exists and non-zero\\\\
+    Then, $n(g(X_n)-g(\mu))\xrightarrow{d}\sigma^2\frac{g''(\mu)}{2}\chi^2_1$\\
+    \item Example Exercise\\\\
+    Consider an independent and identically distributed sample $X_1,...,X_n$ from the $\mathcal{N}(\mu,1)$ distribution.  Define $\bar{X}_n=\frac{\sum_{i=1}^nX_i}{n}$\\\\
+    (a) What is the convergence limit of $\bar{X}_n$ as $n\rightarrow\infty$?\\\\
+    Since $\bar{X}_n$ has mean $\mu$ and finite variance $\frac{\sigma^2}{n}$ by the Weak Law of Large Numbers\\\\
+    $\bar{X}\xrightarrow{p}\mu$\\\\
+    (b) What is the convergence limit of $\sqrt{n}(\bar{X}_n-\mu)$ as $n\rightarrow\infty$?\\\\
+    Since $X_n$ is a sequence of iid random variables with $E[X]=\mu$ and $var[X]=1$, we can apply the Central Limit Theorem\\\\
+    $\sqrt{n}(\bar{X}_n-\mu)\xrightarrow{d}\mathcal{N}(0,1)$\\\\
+    (c) What is the convergence limit of $(\bar{X}_n)^2+\bar{X}_n$ as $n\rightarrow\infty$?\\\\
+    Let $g(x)=x^2+x$ and see that $g$ represents a continuous mapping, then by the Continuous Mapping Theorem,\\\\
+    $\bar{X}_n\xrightarrow{p}\mu\Rightarrow g(\bar{X}_n)\xrightarrow{p} g(\mu)\Rightarrow\bar{X}_n^2+\bar{X}_n\xrightarrow{p}\mu^2+\mu$\\\\
+    (d). What is the convergence limit of $\sqrt{n}((\bar{X}_n^{-2}-\mu^{-2})$ as $n\rightarrow\infty$?\\\\
+    Let $g(x)=x^{-2}$ and see that $g$ is continuous and non-constant, then we can apply the Delta Method on $\bar{X}_n$\\\\
+    $\sqrt{n}(\bar{X}_n-\mu)\xrightarrow{d}\mathcal{N}(0,1)\Rightarrow\sqrt{n}(g(\bar{X}_n)-g(\mu))\xrightarrow{d}\mathcal{N}(0,(g'(\mu))^21)$\\\\
+    $\Rightarrow \sqrt{n}((\bar{X}_n^{-2}-\mu^{-2})\xrightarrow{d}\mathcal{N}(0,4\mu^{-6})$\\\\
+    (e). What is the convergence limit of $\sqrt{n}(\bar{X}_n-\mu)(\bar{X}_n)^2$ as $n\rightarrow\infty$?\\\\
+    $\sqrt{n}(\bar{X}_n-\mu)\xrightarrow{d}\mathcal{N}(0,1)$ and $\bar{X}^2\xrightarrow{p}\mu^2$\\\\
+    By Slutsky's Theorem (product) we have\\\\
+    $\sqrt{n}(\bar{X}_n-\mu)(\bar{X}_n)^2\xrightarrow{d}\mu^2\mathcal{N}(0,1)=\mathcal{N}(0,\mu^4)$
+\end{itemize}
+\pagebreak
+\section{Probability}
+\begin{itemize}
+    \item Example Exercise \\\\
+    Consider the experiment of tossing a coin three times.\\\\
+    (a) What is the sample space?\\\\
+    The sample space is the set of all possible outcomes of a particular experiment. \\\\
+    In this case, our sample space is the set containing\\
+    HHH, HHT, HTH, THH, HTT, THT, TTH, TTT\\\\
+    (b) Consider the events that the $i$th toss, $i=1,2,3$ is a head.  What are the events and give a (nontrivial) sigma algebra.\\\\
+    Event 1: HHH HHT HTH HTT\\
+    Event 2: HHH HHT THH THT\\
+    Event 3: HHH HTH THT TTH\\\\
+    A sigma algebra must satisfy the conditions\\
+    I. Contains the empty set\\
+    II. Closed under complementation\\
+    III. Closed under countable unions\\\\
+    (c) Define a probability measure and show independence on just two different events.  
+    The probability of any particular outcome in our sample space is $\frac{1}{8}$ and so the probability of any of our three events $E_i$ as defined is $\frac{1}{2}$.\\\\
+    $P(E_1\cap E_2)=P(\{HHH,HHT\})=\frac{1}{4}=P(E_1)P(E_2)$\\\\
+    Thus we have shown independence.\\\\
+    \item 1.13\\\\
+    If $P(A)=\frac{1}{3}$ and $P(B^c)=\frac{1}{4}$, can $A$ and $B$ be disjoint?  Explain.\\\\
+    If $A$ and $B$ are disjoint, $P(A\cap B)=0$ but this is not possible since $P(B)=\frac{3}{4}$ so $P(A\cap B)=0$ would imply the $P(A\cup B)=P(A)+P(B)>1$.\\\\
+\end{itemize}
+\end{document}
