@@ -1,0 +1,130 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{Casella, Berger Chapter 3}
+\author{Ruochen (Frank) Zhou }
+\date{October 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Conditional Expectation}
+\begin{itemize}
+    \item Definition: Joint PDF\\\\
+    A function $f_{XY}:\mathbf{R}^2\rightarrow\mathbf{R}$ is called a joint pdf of a continuous random variable $(X,Y)$ if\\
+    $$P((X,Y)\in A)=\int_Af_{XY}(x,y)d(x,y)\text{ for all }A\in\mathbf{R}^2$$
+    \item Definition: Joint Expectation\\\\
+    Let $(X,Y)$ be a continuous random variable with joint pdf $f_{XY}$ and $g$ a function of $(X,Y)$.  The joint expectation of $g(X,Y)$ is given by\\
+    $$E[g(X,Y)]=\int_{-\infty}^\infty\int_{-\infty}^\infty g(x,y)f_{XY}(x,y)dxdy$$
+    \item Definition: Conditional PDF\\\\
+    Let $(X,Y)$ be a continuous random variable with joint pdf $f_{XY}$.  For an $x$ such that $f_X(x)>0$ the conditional distribution of $Y$ given $X=x$ is given by\\
+    $$f_{Y|X}(y)=\dfrac{f_{XY}(x,y)}{f_X(x)}$$
+    \item Definition: Conditional Expectation\\\\
+    Let $(X,Y)$ be a continuous random variable with joint pdf $f_{XY}$.  The conditional expectation of $Y$ given $X=x$ is given by\\
+    $$E[Y|X=x]=\int_{-\infty}^\infty yf_{Y|X}(y)dy$$
+    \item Example Exercise\\\\
+    Given a random variable $(X,Y)$ with joint density\\
+        \begin{equation*}
+            f_{XY}(x,y)=\begin{cases}
+            6xy^2 & 0<x<1, 0<y<1\\
+            0 & otherwise\\
+            \end{cases}
+        \end{equation*}
+    calculate the conditional expectation $E[Y|X=x]$.\\
+    The marginal distribution $f_X(x)$ is given by\\\\
+    $f_X(x)=\int_0^1f_{XY}(x,y)dy=\int_0^16xy^2dy=\dfrac{6xy^3}{3}\bigg|_{y=0}^1=2x$\\\\
+    The conditional pdf $f_{Y|X}(y)$ is given by\\\\
+    $f_{Y|X}(y)=\dfrac{f_{XY}(x,y)}{f_X(x)}=\dfrac{6xy^2}{2x}=3y^2$\\\\
+    The conditional expectation $E[Y|X=x]$ is given by\\\\
+    $E[Y|X=x]=\int_0^1 yf_{Y|X}(y)dy=\int_0^1 y3y^2dy=\dfrac{3y^4}{4}\bigg|_{y=0}^1=\dfrac{3}{4}$
+\end{itemize}
+\pagebreak
+\section{Probability Density and Cumulative Density Functions}
+\begin{itemize}
+    \item Example Exercise\\\\
+    Let $X$ be a continuous random variable with pdf $f$ and cdf $F$.  Consider some value $x_0$ with $F(x_0)<1$ and define the pdf\\ $$g(x)=\textbf{1}_{(x\geq x_0)}\dfrac{f_X(x)}{1-F_X(x_0)}$$\\
+    What is the cdf $G$ that is associated to the pdf $g$?\\\\
+    Notice $g_X(x)=0$ for all $x<x_0$ and thus\\
+    If $x<x_0$ then $G_X(x)=0$\\\\
+    Notice the denominator of $g_X(x)$ is a constant and by definition, the cdf, $F_X(x)=\int f_X(x)dx$ and thus\\
+    If $x\geq x_0$ then $G_X(x)=\int_{x_0}^xg_X(x)dx=\dfrac{F_X(x)}{1-F_X(x_0)}\bigg|_{x=x_0}^x=\dfrac{F_X(x)-F_X(x_0)}{1-F_X(x_0)}$
+    \begin{equation*}
+            G_X(x)=\begin{cases}
+            0 & x<x_0\\
+            \dfrac{F_X(x)-F_X(x_0)}{1-F_X(x_0)} & x\geq x_0\\
+            \end{cases}
+        \end{equation*}
+\end{itemize}
+\pagebreak
+\section{Transformation of Random Variables}
+\begin{itemize}
+    \item Definition: Transformation of Random Variable\\\\
+    Let $\mathcal{X}$ and $\mathcal{Y}$ denote the sample spaces of $X$ and $Y$, respectively and consider the mapping\\
+    $$g:\mathcal{X}\rightarrow\mathcal{Y}$$\\
+    along with its inverse mapping \\
+    $$g^{-1}(A)=\{x\in\mathcal{X}:g(x)\in A\subseteq\mathcal{Y}\}$$\\
+    For any $Y=g(X)$ we can write\\
+    $$P(Y\in A)=P(X\in g^{-1}(A))$$
+    \item Example Exercise\\\\
+    Let $X\sim Bin(n,p)$.  What is the pmf of $Y=X^3$?\\\\
+    The pmf of $X$ is given by\\
+    $$f_X(x)=(^{n}_{x})p^x(1-p)^{n-x}\text{ for }x=0,1,...,n$$\\
+    We have $Y=g(X)=X^3\Rightarrow X=g^{-1}(Y)=Y^{1/3}$ and note that our function $g(X)$ is one-to-one.\\\\ 
+    Thus $f_Y(y)=P(Y=y)=P(g^{-1}(y)=x)=f_X(g^{-1}(y))$\\\\
+    $$f_Y(y)=(^{n}_{y^{1/3}})p^{y^{1/3}}(1-p)^{n-y^{1/3}}$$
+\end{itemize}
+\pagebreak
+\section{Random Samples}
+\begin{itemize}
+    \item Properties of Sums of Random Samples\\\\
+    Consider an i.i.d. random sample $\{X_1,...,X_n\}$\\
+    For any function $g$ we evaluate\\
+    $$E[\sum_{i=1}^ng(X_i)]=\sum_{i=1}^nE[g(X_i)]=nE[g(X_i)]$$\\
+    $$Var(\sum_{i=1}^ng(X_i))=\sum_{i=1}^nVar(g(X_i))=nVar(g(X_i))$$\\
+    \emph{Proof}\\
+    \emph{Given the definition of variance as the second central moment}\\
+    $Var(X)=E[(X-\mu_X)^2]$\\\\
+    $\Rightarrow Var(\sum_{i=1}^ng(X_i))=E[(\sum_{i=1}^n(g(X_i)-\mu_{g(X_i)}))^2]$\\\\
+    $=\sum_{i=1}^n\sum_{j=1}^nE[(g(X_i)-\mu_{g(X_i)})(g(X_j)-\mu_{g(X_j)})]$\\\\
+    $=\sum_{i=1}^nE[(g(X_i)-\mu_{g(X_i)})^2]+\sum\sum_{i\neq j}E[(g(X_i)-\mu_{g(X_i)})(g(X_j)-\mu_{g(X_j)})]$\\\\
+    \emph{Here note that $\{X_1,...,X_n\}$ are independent}\\
+    $=\sum_{i=1}^nVar(g(X_i))+\sum\sum_{i\neq j}E[(g(X_i)-\mu_{g(X_i)})]E[(g(X_j)-\mu_{g(X_j)})]$\\\\
+    \emph{Here note that $E[g(X_i)]=\mu_{g(X_i)}$}\\
+    $=nVar(g(X_i))+\sum\sum_{i\neq j}0\cdot0$\\\\
+    $=nVar(g(X_i))$
+    \item Properties of the Sample Mean\\\\
+    Consider an i.i.d. random sample $\{X_1,...,X_n\}$ from the $\mathcal{N}(\mu,\sigma^2)$ distribution\\
+    Consider the sample mean\\
+    $$\bar{X}=\dfrac{1}{n}\sum_{i=1}^nX_i$$\\
+    $$E[\bar{X}]=E[\dfrac{1}{n}\sum_{i=1}^nX_i]=\dfrac{1}{n}E[\sum_{i=1}^nX_i]=\dfrac{n\mu}{n}\mu=\mu$$\\
+    $$var(\bar{X})=var(\dfrac{1}{n}\sum_{i=1}^nX_i)=\dfrac{1}{n^2}var(\sum_{i=1}^nX_i)=\dfrac{n\sigma^2}{n^2}=\dfrac{\sigma^2}{n}$$
+    \item Example Exercise\\\\
+    Consider a random sample $\{X_1,...,X_n\}$ from the $\mathcal{N}(1,\sigma^2)$ distribution.\\
+    Consider two estimators of $\sigma^2$\\
+    $$\hat{\sigma}^2=\dfrac{1}{n}\sum_{i=1}^n(X_i-1)^2$$\\
+    $$\tilde{\sigma}^2=\dfrac{1}{n-1}\sum_{i=1}^n(X_i-1)^2$$\\
+    Which estimator is unbiased?\\\\
+    We can show the first estimator is unbiased\\\\
+    $E[\hat{\sigma}^2=E\dfrac{1}{n}\sum_{i=1}^n(X_i-1)^2]$\\\\
+    $=\dfrac{1}{n}\sum_{i=1}^nE[X_i^2-2X_i+1]$\\\\
+    $=\dfrac{1}{n}\sum_{i=1}^n((\sigma^2+1)-2(1)+1)$\\\\
+    $=\dfrac{n\sigma^2}{n}=\sigma^2$\\\\
+    Here, the true mean is known, if this were not a known parameter, the normalization $\dfrac{1}{n-1}$ would result in an unbiased estimate. 
+    \item Example Exercise\\\\
+    Consider a random sample $\{X_1,...,X_n\}$ from the $\mathcal{N}(\mu,\sigma^2)$ distribution.\\
+    Consider the estimator of $\sigma^2$\\
+    $$\tilde{\sigma}^2=\dfrac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X})^2$$\\
+    Show that $\tilde{\sigma}^2$ is unbiased.\\\\
+    Consider\\
+    $E[\tilde{\sigma}^2]=E[\dfrac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X})^2]$\\\\
+    $=\dfrac{1}{n-1}E[\sum_{i=1}^nX_i^2+\bar{X}^2-2X_i\bar{X}]$\\\\
+    $=\dfrac{1}{n-1}(\sum_{i=1}^nE[X_i^2]+\sum_{i=1}^nE[\bar{X}^2]-2\bar{X}E[\sum_{i=1}^nX_i])$\\\\
+    $=\dfrac{1}{n-1}(nE[X_i^2]+nE[\bar{X}^2]-2\bar{X}E[n\bar{X}])$\\\\
+    $=\dfrac{n}{n-1}(E[X_i^2]-E[\bar{X}^2])$\\\\
+    $=\dfrac{n}{n-1}(E[X_i^2]-E[X_i]^2+E[X_i]^2-E[\bar{X}^2]+E[\bar{X}]^2-E[\bar{X}]^2)$\\\\
+    $=\dfrac{n}{n-1}(\sigma^2+\mu^2-\dfrac{\sigma^2}{n}-\mu^2)$\\\\
+    $=\dfrac{n}{n-1}\dfrac{(n-1)\sigma^2}{n}=\sigma^2$
+\end{itemize}
+\end{document}
