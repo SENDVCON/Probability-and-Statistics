@@ -1,0 +1,412 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{Casella, Berger Chapter 7 Practice}
+\author{Ruochen Zhou 1849821}
+\date{November 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{7.12}
+Let $X_1,...,X_n$ be a random sample from a population with pmf\\\\
+$P_\theta(X=x)=\theta^x(1-\theta)^{1-x}$, $x=0$ or $1$, $0\leq\theta\leq\frac{1}{2}$\\\\
+i.e. $X_i$ has a Bernoulli distribution with parameter $\theta$\\\\
+(a) Find the method of moments estimator and MLE of $\theta$.
+\begin{itemize}
+    \item Definition: Method of Moments\\\\
+    Given a sample $x_1,...,X_n$ from an i.i.d. distribution $X_i\sim f(x;\theta)$ where the population parameter $\theta$ belongs to the parameter space $\Theta$.  Typically, the moments of the distribution are functions of this paramters $\theta$\\\\
+    $E[X^i]=\mu_i(\theta)$ $i=1,...,n$\\\\
+    We replace the $j$-th population mean by $\frac{\sum_{i=1}^nX_i^j}{n}$ for $j=1,...,n$ to get \\\\
+    $\frac{\sum_{i=1}^nX_i^j}{n}=\mu_i(\theta)$\\\\
+    The method of moments estimator $\hat{\theta}$ is defined as the solution to this system of equations.
+    \item Definition: Likelihood Function\\\\
+    Given a sample $x_1,...,X_n$, the likelihood function of a parameter $\theta$ is defined by\\\\
+    $L(\theta|X_1,...,X_n)=f(X_1,...,X_n,\theta)=\prod_{i=1}^nf(X_i,\theta)$
+    \item Definition: Maximum Likelihood Estimator (MLE)\\\\
+    Given a sample $X_1,...,X_n$, the maximum likelihood estimator $\hat{\theta}\in\Theta$ is the parameter value at which $L(\theta|X_1,...,X_n)$ attains a maximum.
+\end{itemize}
+Using the method of moments, we have\\\\
+$E[X]=(1)(P_\theta(X=1))+(0)(P_\theta(X=0))=\theta$\\\\
+We replace the first population mean by $\frac{1}{n}\sum_{i=1}^nX_i$ to get\\\\
+$\tilde{\theta}=\frac{1}{n}\sum_{i=1}^nX_i=\bar{X}$\\\\\\\\
+Using the MLE, we have\\\\
+$L(\theta|X_1,...,X_n)=\prod_{i=1}^nf(X_i,\theta)$\\\\
+Let $p$ be the number of $X_i$ such that $X_i=1$, then\\\\
+$L(\theta|X_1,...,X_n)=\theta^p(1-\theta)^{n-p}$\\\\
+If we differentiate this with respect to $\theta$ we have the first order condition\\\\
+$p\theta^{p-1}(1-\theta)^{n-p}-(n-p)(1-\theta)^{n-p-1}\theta^p=\theta^{p-1}(1-\theta)^{n-p-1}(p-n\theta)=0$\\\\
+Here, note that if $\frac{p}{n}>\frac{1}{2}$ our likelihood function is maximized at $\hat{\theta}=\frac{1}{2}$ as in this case $p-n\theta>0$ for all $\theta\in[0,\frac{1}{2}]$, thus,\\\\
+$\hat{\theta}=min\{\frac{p}{n},\frac{1}{2}\}=min\{\bar{X},\frac{1}{2}\}$\\\\
+(b) Find the mean squared error of each of the estimators.
+\begin{itemize}
+    \item Definition: Mean Squared Error\\\\
+    The mean square error (MSE) of an estimator $\hat{\theta}$ of a parameter $\theta$ is defined by\\\\
+    $MSE(\hat{\theta})=E_\theta[|\hat{\theta}-\theta|^2]$
+    \item Definition: Bias-Variance Decomposition\\\\
+    $E_\theta[|\hat{\theta}-\theta|^2]=Var_\theta(\hat{\theta})+Bias_\theta^2(\hat{\theta})$
+\end{itemize}
+For our method of moments estimator, we note that $E[\tilde{\theta}]=E[\bar{X}]=\theta$ and thus we have an unbiased estimator.  And thus, given our bias-variance decomposition, our MSE reduces to\\\\ $Var[\tilde{\theta}]=Var[\bar{X}]=\frac{\theta(1-\theta)}{n}$\\\\
+For our MLE estimator, we have $MSE(\hat{\theta})=E_\theta[|\hat{\theta}-\theta|^2]$\\\\
+(c) Which estimator is preferred?  Justify your choice.\\\\
+If $\bar{X}\leq\frac{1}{2}$ then we have that $|\tilde{\theta}-\theta|^2=|\hat{\theta}-\theta|^2$\\\\
+However, if $\bar{X}>\frac{1}{2}$ we have $|\tilde{\theta}-\theta|^2>|\hat{\theta}-\theta|^2$ since $\theta\leq\frac{1}{2}$ and $\bar{X}>\frac{1}{2}$.\\\\
+Thus, our MLE estimator has the lower MSE and so we prefer the MLE estimator.
+\pagebreak
+\section{MSE for Sample Variance}
+Given $X_1,...,X_n$ i.i.d. with mean $\mu$ and finite variance $\sigma^2$\\\\
+Consider the unbiased estimator for sample variance\\\\
+$\hat{S}^2=\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X})^2$\\\\
+And the method of moments and MLE estimator for sample variance\\\\
+$\tilde{S}^2=\frac{1}{n}\sum_{i=1}^n(X_i-\bar{X})^2$\\\\
+We show that the unbiased estimator is indeed unbiased\\\\ 
+$E[\hat{S}^2]=E[\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X})^2]$\\\\
+$=\frac{1}{n-1}E[\sum_{i=1}^n(X_i-\bar{X})^2]$\\\\
+$=\frac{1}{n-1}E[\sum_{i=1}^n(X_i^2+\bar{X}^2-2X_i\bar{X})]$\\\\
+$=\frac{1}{n-1}(nE[X_i^2]-nE[\bar{X}^2]-2nE[\bar{X}^2])$\\\\
+$=\frac{n}{n-1}(E[X_i^2]-E[\bar{X}^2])$\\\\
+$=\frac{n}{n-1}(E[X_i^2]-E[X_i]^2+E[X_i]^2-E[\bar{X}^2]+E[\bar{X}]^2-E[\bar{X}]^2)$\\\\
+$=\frac{n}{n-1}(\sigma^2+\mu^2-\frac{\sigma^2}{n}-\mu^2)$\\\\
+$=\frac{n}{n-1}\frac{(n-1)\sigma^2}{n}$\\\\
+$=\sigma^2$\\\\
+Thus, given our bias-variance decomposition, our MSE for the unbiased estimator reduces to $Var_{\sigma^2}(\hat{S}^2)$\\\\
+$\hat{S}^2=\frac{1}{n-1}\sum_{i=1}^n(X_i-\bar{X})^2$\\\\
+$\Rightarrow(n-1)\frac{\hat{S}^2}{\sigma^2}=\sum_{i=1}^n(\frac{X_i-\bar{X}}{\sigma})^2=\sum_{i=1}^{n-1}Z_i^2$ where $Z_i\sim\mathcal{N}(0,1)$\\ (the proof of this result is very laborious and thus omitted but one can intuit this result as $\bar{X}$ the sample mean requires one free variable)\\\\
+$\Rightarrow(n-1)\frac{\hat{S}^2}{\sigma^2}\sim\chi_{n-1}^2$\\\\
+$\Rightarrow Var((n-1)\frac{\hat{S}^2}{\sigma^2})=2(n-1)$\\\\
+Given this result, we can find\\\\
+$Var_{\sigma^2}(\hat{S}^2)=Var_{\sigma^2}(\frac{\sigma^2}{n-1}\frac{n-1}{\sigma^2}\hat{S}^2)$\\\\
+$=\frac{\sigma^4}{(n-1)^2}Var_{\sigma^2}(\frac{n-1}{\sigma^2}\hat{S}^2)$\\\\
+$=\frac{\sigma^4}{(n-1)^2}2(n-1)$\\\\
+$MSE(\hat{S}^2)=\frac{2\sigma^4}{n-1}$\\\\
+Our method of moments estimator is biased and we can compute the bias as\\\\
+$Bias_{\sigma^2}(\tilde{S}^2)=E[\tilde{S}^2]-\sigma^2$\\\\
+$=E[\frac{n-1}{n}\hat{S}^2]-\sigma^2$\\\\
+$=\frac{n-1}{n}\sigma^2-\sigma^2$\\\\
+$=\frac{-\sigma^2}{n}$\\\\
+Moreover, we can compute the variance as\\\\
+$Var_{\sigma^2}(\tilde{S}^2)=Var_{\sigma^2}(\frac{n-1}{n}\hat{S}^2)$\\\\
+$=\frac{(n-1)^2}{n^2}Var_{\sigma^2}(\hat{S}^2)$\\\\
+$=\frac{(n-1)^2}{n^2}\frac{2\sigma^4}{n-1}$\\\\
+$=\frac{(n-1)2\sigma^4)}{n^2}$\\\\
+Thus, given our bias-variance decomposition, we have\\\\
+$MSE(\tilde{S}^2)=Var_{\sigma^2}(\tilde{S}^2)+Bias_{\sigma^2}(\tilde{S}^2)^2$\\\\
+$=\frac{(n-1)2\sigma^4)}{n^2}+\frac{\sigma^4}{n^2}$\\\\
+$MSE(\tilde{S}^2)=\frac{(2n-1)\sigma^4}{n^2}$\\\\
+Here, we can compare the MSE of our two estimators and see that for all $n>\frac{1}{3}$\\\\
+$\frac{2n-1}{n^2}<\frac{2}{n-1}\Rightarrow MSE(\tilde{S}^2)<MSE(\hat{S}^2)$\\\\
+Thus, the method of moments and MLE estimator has a smaller MSE than the unbiased estimator.
+\pagebreak
+\section{7.46}
+Let $X_1,X_2,X_3$ be a random sample of size three from a $U(\theta,2\theta)$ distribution where $\theta>0$.\\\\
+(a) Find the method of moments estimator of $\theta$.\\\\
+We replace the first population mean by $\frac{1}{n}\sum_{i=1}^nX_i$ and get\\\\
+$E[X_i]=\dfrac{3\theta}{2}=\frac{1}{n}\sum_{i=1}^nX_i$\\\\
+$\Rightarrow \tilde{\theta}=\dfrac{2\bar{X}}{3}$\\\\
+(b) Find the MLE, $\hat{\theta}$, and find a constant $k$ such that $E_\theta[k\hat{\theta}]=\theta$.\\\\
+$L(\theta|\textbf{X})=f(\textbf{X}\theta)=\prod_{i=1}^3f(\theta|X_i)=\dfrac{1}{\hat{\theta}^3}$ if $X_i\in(\theta,2\theta)$ for all $i$, $0$ otherwise.\\\\
+It is clear that this function is maximized when $\hat{\theta}$ is minimized subject to the constraint $X_i\in(\theta,2\theta)$ for all $i$.  If we rank order our sample $X_{(1)},X_{(2)},X_{(3)}$ it is clear that either $\hat{\theta}=X_{(1)}$ or $\hat{\theta}=\frac{X_{(3)}}{2}$ would satisfy the constraint, but since $X_{(3)}\leq2\theta$ and $X_{(1)}\geq\theta$, $\frac{X_{(3)}}{2}\leq X_{(1)}$ and so $\hat{\theta}=\frac{X_{(3)}}{2}$ is our MLE.\\\\
+Here note that with three random draws from a $U(a,b)$ distribution, our expectation of $X_{(3)}$ should be $a+\frac{3}{4}(b-a)$ and thus $E[\frac{X_{(3)}}{2}]=\frac{7}{8}\theta$ and so $k=\frac{8}{7}$.  We can further note that this estimator is clearly biased.\\\\
+The proof of this fact is as follows\\\\
+Let $X_1,X_2,X_3$ be i.i.d. from a $U(a,b)$ distribution, for simplicity, we can let $a=0$ and let $Z=max\{X_1,X_2,X_3\}$, Then we have\\\\
+$P(Z\leq z)=P(X_1\leq z)\cdot P(X_2\leq z)\cdot P(X_3\leq z)$\\\\
+$\Rightarrow F_Z(z)=(\dfrac{z}{b})^3$\\\\
+$\Rightarrow f_Z(z)=\dfrac{3z^2}{b^3}$\\\\
+$\Rightarrow E[Z]=\int_0^bzf_Z(z)dz=\int_0^b\dfrac{3z^3}{b^3}=\dfrac{3}{b^3}(\dfrac{z^4}{4}\bigg|_0^b)=\dfrac{3}{4}b$\\\\
+We can then generalize this to $U(a,b)$ to get $E[Z]=a+\frac{3}{4}(b-a)$\\\\
+(c) Which of the two estimators can be improved using sufficiency?\\\\
+(d) Find the method of moments estimate and MLE of $\theta$ based on the data\\\\
+1.29, .86, 1.33,\\\\
+three observations of average berry sizes of wine grapes.\\\\
+The method of moments estimate would be\\\\
+$\tilde{\theta}=\dfrac{2\bar{X}}{3}=0.7733$\\\\
+The MLE estimate would be\\\\
+$\hat{\theta}=\dfrac{X_{(3)}}{2}=0.6650$
+\pagebreak
+\section{Asymptotic Analysis}
+\begin{itemize}
+    \item Theorem: Weak Law of Large Numbers\\\\
+    Let $X_1,...,X_n$ be a sequence of independent, identically distribued random variables with mean $\mu$ and finite variance $\sigma^2$.  Then,\\\\
+    $\bar{X}\xrightarrow{p}\mu$\\\\
+    \emph{proof}\\
+    By Chebyshev's Inequality\\\\
+    $P(|\bar{X}-\mu|\geq\epsilon)\leq\frac{E[(\bar{X}-\mu)^2]}{\epsilon^2}]$\\\\
+    $\Rightarrow P(|\bar{X}-\mu|\geq\epsilon)\leq\frac{var[\bar{X}]}{\epsilon^2}$\\\\
+    $\Rightarrow P(|\bar{X}-\mu|\geq\epsilon)\leq\frac{\sigma^2}{n\epsilon^2}$\\\\
+    $\Rightarrow\lim\limits_{n\to\infty}P(|\bar{X}-\mu|\geq\epsilon)=0$\\
+    \item Theorem: Continuous Mapping Theorem\\\\
+    Suppose $g$ is a continuous function.  Then,\\\\
+    $X_n\xrightarrow{p}X\Rightarrow g(X_n)\xrightarrow{p}g(X)$\\\\
+    $X_n\xrightarrow{d}X\Rightarrow g(X_n)\xrightarrow{d}g(X)$\\
+    \item Theorem: Central Limit Theorem\\\\
+    Let $X_1,...X_n$ be a sequence of independent, identically distributed random variables with $E[X]=\mu$ and finite $var[X]=\sigma^2$.  Then,\\\\
+    $\sqrt{n}\frac{\bar{X}-\mu}{\sigma^2}\xrightarrow{d}\mathcal{N}(0,1)$\\
+    \item Theorem: Delta Method\\\\
+    Let $X_1,...X_n$ be a sequence of random variables with\\\\
+    $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\\\
+    And let $g$ be a differentiable, non-constant function\\\\
+    Then, $\sqrt{n}(g(X_n)-g(\mu))\xrightarrow{d}\mathcal{N}(0,(g'(\mu))^2\sigma^2)$\\
+    \item Theorem: Second Order Delta Method\\\\
+    Let $X_1,...X_n$ be a sequence of random variables with\\\\
+    $\sqrt{n}(X_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\\\
+    And let $g$ be a twice-differentiable, non-constant function such that\\
+    $g'(\mu)=0$ and $g''(\mu)$ exists and non-zero\\\\
+    Then, $n(g(X_n)-g(\mu))\xrightarrow{d}\sigma^2\frac{g''(\mu)}{2}\chi^2_1$\\
+    \item Theorem: Slutsky's Theorem\\\\
+    If $X_n\xrightarrow{d}X$ and $Y_n\xrightarrow{p}a$ then\\\\
+    $Y_nX_n\xrightarrow{d}aX$\\\\
+    $X_n+Y_n\xrightarrow{d}X+a$\\\\
+    $\dfrac{X_n}{Y_n}\xrightarrow{d}\dfrac{X}{a}$, $a\neq0$
+\end{itemize}
+Consider a random sample $X_1,...,X_n$ with mean $\mu>0$ and finite variance $\sigma^2$ and define $\bar{X}_n=n^{-1}\sum_{i=1}^nX_i$.\\\\
+(a) What is the convergence limit of $\sqrt{n}(\bar{X}_n-\mu)$ as $n\rightarrow\infty$?\\
+By the Central Limit Theorem,\\\\ $\sqrt{n}(\bar{X}_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$\\\\
+(b) What is the convergence limit of $(\bar{X}_n)^{-2}$ as $n\rightarrow\infty$?\\
+By the (Weak) Law of Large Numbers $\bar{X}_n\xrightarrow{p}\mu$\\\\
+As $g(x)=x^{-2}$ is a continuous mapping, we can apply the Continuous Mapping Theorem\\\\
+$\bar{X}_n\xrightarrow{p}\mu\Rightarrow g(\bar{X}_n)\xrightarrow{p}g(\mu)\Rightarrow (\bar{X}_n)^{-2}\xrightarrow{p}\mu^{-2}$\\\\
+(c) What is the convergence limit of $\sqrt{n}(\bar{X}_n-\mu)(\bar{X}_n)^{-2}$ as $n\rightarrow\infty$?\\
+By Slutsky's Theorem, we have\\\\
+$\sqrt{n}(\bar{X}_n-\mu)\xrightarrow{d}\mathcal{N}(0,\sigma^2)$ and $(\bar{X}_n)^{-2}\xrightarrow{p}\mu^{-2}$\\\\
+$\Rightarrow \sqrt{n}(\bar{X}_n-\mu)(\bar{X}_n)^{-2}\xrightarrow{d}\mathcal{N}(0,\dfrac{\sigma^2}{\mu^4})$\\\\
+(d) What is the convergence limit of $\sqrt{n}(log(\bar{X}_n)-log(\mu))$ as $n\rightarrow\infty$?\\
+Since $g(x)=log(x)$ is a differentiable non-constant function, we can apply the Delta Method\\\\
+$g'(\mu)=\dfrac{1}{\mu}$\\\\
+$\Rightarrow \sqrt{n}(log(\bar{X}_n)-log(\mu))\xrightarrow{d}\mathcal{N}(0,\dfrac{\sigma^2}{\mu^2})$
+\pagebreak
+\section{Hypothesis Testing}
+\begin{itemize}
+    \item Definition: Method of Moments\\\\
+    Given a sample $x_1,...,X_n$ from an i.i.d. distribution $X_i\sim f(x;\theta)$ where the population parameter $\theta$ belongs to the parameter space $\Theta$.  Typically, the  oments of the distribution are functions of this paramters $\theta$\\\\
+    $E[X^i]=\mu_i(\theta)$ $i=1,...,n$\\\\
+    We replace the $j$-th population mean by $\frac{\sum_{i=1}^nX_i^j}{n}$ for $j=1,...,n$ to get \\\\
+    $\frac{\sum_{i=1}^nX_i^j}{n}=\mu_i(\theta)$\\\\
+    The method of moments estimator $\hat{\theta}$ is defined as the solution to this system of equations.
+    \item Likelihood Function\\\\
+    Given a sample $x_1,...,X_n$, the likelihood function of a parameter $\theta$ is defined by\\\\
+    $L(\theta|X_1,...,X_n)=f(X_1,...,X_n,\theta)=\prod_{i=1}^nf(X_i,\theta)$
+    \item Definition: Maximum Likelihood Estimator (MLE)\\\\
+    Given a sample $X_1,...,X_n$, the maximum likelihood estimator $\hat{\theta}\in\Theta$ is the parameter value at which $L(\theta|X_1,...,X_n)$ attains a maximum.
+    \item Definition: Score Function\\\\
+    The maximum of a likelihood function will be preserved under a log transformation as it is a positive monotonic transformation and thus, we can utilize the log transformation to simplify calculations for the MLE.  The resultant first-order condition is called a Score Function\\\\
+    $S(\theta|X_1,...,X_n)=\dfrac{\partial logL(\theta|X_1,...,X_n)}{\partial\theta}$
+    \item Definition: Likelihood Ratio Test\\\\
+    Want to test $H_0: \theta\in\Theta_0$ versus $H_1: \theta\in\Theta_1$\\\\
+    The Likelihood Ratio test statistic is given by $\lambda(\textbf{X})$ and has the rejection region $\lambda(\textbf{X})<C$ such that\\\\
+$\lambda(\textbf{X})=\dfrac{sup_{\theta\in\Theta_0}L(\theta|\textbf{X})}{sup_{\theta\in\Theta_1}L(\theta|\textbf{X})}$\\\\
+    \item Definition: Wald Test\\\\
+    (univariate)\\
+    Want to test $H_0: \theta=\theta_0$ versus $H_1: \theta\neq\theta_0$\\\\
+    The Wald test statistic is given by $W(\textbf{X})$ and has the rejection region $W(\textbf{X})>C$ such that\\\\
+    $W(\textbf{X})=\dfrac{(\hat{\theta}-\theta_0)^2}{var(\hat{\theta})}$\\\\
+    (multivariate)\\
+    Want to test $H_0:R\theta=r$ versus $H_1:R\theta\neq r$\\\\
+    The Wald test statistic is given by $W(\textbf{X})$ and has the rejection region $W(\textbf{X})>C$ such that\\\\
+    $W(\textbf{X})=(R\hat{\theta}-r)^t(R\hat{V}R')^{-1}(R\hat{\theta}-r)$\\\\
+    where $\hat{V}$ is an estimator of the asymptotic covariance matrix $V$ of $\sqrt{n}(\hat{\theta}-\theta)$
+    \item Definition: Power Function\\\\
+    The power function of a hypothesis test with rejection region $R$ is the function of $\theta\in\Theta$ such that\\\\
+    $\beta(\theta)=P_\theta(X\in R)$
+\end{itemize}
+Consider a random sample $X_1,...,X_n$ i.i.d $\mathcal{N}(0,\sigma^2)$.\\\\
+(a) Derive the MLE for $\sigma^2$\\
+$L(\theta|X_1,...,X_n)=f(X_1,...,X_n,\theta)=\prod_{i=1}^nf(X,\theta)=\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi\hat{\sigma}^2}}exp\{\dfrac{-x_i^2}{2\hat{\sigma}^2}\}$\\\\
+We can utilize a log transformation here\\\\
+$log(\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi\hat{\sigma}^2}}exp\{\dfrac{-x_i^2}{2\hat{\sigma}^2}\})=\sum_{i=1}^nlog(\dfrac{1}{\sqrt{2\pi}})-log(\hat{\sigma})+\dfrac{-x_i^2}{2\hat{\sigma}^2}$\\\\
+We compute our first order condition with respect to $\sigma^2$\\\\
+$\dfrac{\partial}{\partial\sigma^2}logL(\sigma^2|\textbf{X})=\sum_{i=1}^n\dfrac{-1}{\hat{\sigma}^2}+\dfrac{x_i^2}{\hat{\sigma}^4}=0$\\\\
+$\Rightarrow\dfrac{\sum_{i=1}^nx_i^2}{\hat{\sigma}^2}-n=0$\\\\
+$\Rightarrow\hat{\sigma}^2=\dfrac{\sum_{i=1}^nx_i^2}{n}$\\\\
+(b) What is the method of moments estimator for $\sigma^2$?\\\\
+We replace the second population mean to get\\\\
+$E[X^2]=\dfrac{\sum_{i=1}^nx_i^2}{n}$\\\\
+$E[X^2]=Var[X]+E[X]^2=\hat{\sigma}^2+0$\\\\
+$\Rightarrow \hat{\sigma}=\dfrac{\sum_{i=1}^nx_i^2}{n}$\\\\
+(c) Write down the Likelihood Ratio test statistic for $H_0:\sigma=\sigma_0$ versus $H_1:\sigma\neq\sigma_0$.\\\\
+$\lambda(\textbf{X})=\dfrac{sup_{\theta\in\Theta_0}L(\theta|\textbf{X})}{sup_{\theta\in\Theta_1}L(\theta|\textbf{X})}=\dfrac{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi\sigma_0^2}}exp\{\dfrac{-x_i^2}{2\sigma_0^2}\}}{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi\hat{\sigma}^2}}exp\{\dfrac{-x_i^2}{2\hat{\sigma}^2}\}}$\\\\
+(d) Write down the Wald Test statistics for $H_0:\sigma=\sigma_0$ versus $H_1:\sigma\neq\sigma_0$.  Which testing procedure should you use?
+$W(\textbf{X})=\dfrac{(\hat{\theta}-\theta_0)^2}{var(\hat{\theta})}$\\\\
+According to the Neyman-Pearson Lemma, the Likelihood Ratio test is the uniformly most powerful test for testing simple (point) hypotheses and thus we should pick the Likelihood Ratio test.\\\\
+(e) Derive the Power function.  Calculate the probability of the type I error.\\\\
+First, we calculate the rejection region for our LRT, given by $\lambda(\textbf{X})<C$\\\\
+$\lambda(\textbf{X})=\dfrac{sup_{\theta\in\Theta_0}L(\theta|\textbf{X})}{sup_{\theta\in\Theta_1}L(\theta|\textbf{X})}=\dfrac{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi\sigma_0^2}}exp\{\dfrac{-x_i^2}{2\sigma_0^2}\}}{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi\hat{\sigma}^2}}exp\{\dfrac{-x_i^2}{2\hat{\sigma}^2}\}}$\\\\
+$=\dfrac{\hat{\sigma}^nexp(\dfrac{-\sum_{i=1}^nx_i^2}{2\sigma_0^2})}{\sigma_0^nexp(\dfrac{-\sum_{i=1}^nx_i^2}{2\hat{\sigma}^2})}$\\\\
+$=\dfrac{\hat{\sigma}^n}{\sigma_0^n}exp(\dfrac{\sum_{i=1}^nx_i^2}{2\hat{\sigma}^2}-\dfrac{\sum_{i=1}^nx_i^2}{2\sigma_0^2})$\\\\
+$=\dfrac{\hat{\sigma}^n}{\sigma_0^n}exp(\dfrac{(\sum_{i=1}^nx_i^2)(\sigma_0^2-\hat{\sigma}^2)}{2\sigma_0^2\hat{\sigma}^2})<C$\\\\
+\pagebreak
+\section{Wald Test}
+\begin{itemize}
+    \item Definition: Wald Test
+    (univariate)\\
+    Want to test $H_0: \theta=\theta_0$ versus $H_1: \theta\neq\theta_0$\\\\
+    The Wald test statistic is given by $W(\textbf{X})$ and has the rejection region $W(\textbf{X})>C$ such that\\\\
+    $W(\textbf{X})=\dfrac{(\hat{\theta}-\theta_0)^2}{var(\hat{\theta})}$\\\\
+    (multivariate)\\
+    Want to test $H_0:R\theta=r$ versus $H_1:R\theta\neq r$\\\\
+    The Wald test statistic is given by $W(\textbf{X})$ and has the rejection region $W(\textbf{X})>C$ such that\\\\
+    $W(\textbf{X})=(R\hat{\theta}-r)^t(R\hat{V}R')^{-1}(R\hat{\theta}-r)$\\\\
+    where $\hat{V}$ is an estimator of the asymptotic covariance matrix $V$ of $\sqrt{n}(\hat{\theta}-\theta)$
+    \item Theorem: Asymptotic Efficiency of MLE\\\\
+    The MLE $\hat{\theta}$ of $\theta\in\Theta$ satisfies\\\\
+    $\sqrt{n}(\hat{\theta}-\theta\xrightarrow{d}\mathcal{N}(0,I^{-1}(\theta))$\\\\
+    Consequently, the asymptotic covariance matrix of the MLE is given by the inverse of the Fisher Information.\\
+    Note that this theorem implies the asymptotic efficiency of the MLE.
+\end{itemize}
+Consider an i.i.d. sample $X_1,...,X_n$ with expectation 0 and variance $\sigma^2$.  To test the hypothesis $H_0:\sigma=\sigma_0$ versus $H_1: \sigma\neq\sigma^0$ we consider the test\\\\
+$n(\bar{X}-\sigma_0^2)(\frac{1}{n}\sum_{i=1}^n(X_i^2-\sigma_0^2)^2)^{-1}(\bar{X}-\sigma_0^2)$\\\\
+where $\bar{X}=\frac{1}{n}\sum_{i=1}^nX_i^2$\\\\
+(a) How is this test called?\\\\
+Wald test\\\\
+(b) Derive the asymptotic distribution of the test under $H_0$.\\\\
+$X_1^2,...,X_n^2$ is itself a sequence of i.i.d. random variables with expectation $\sigma^2$ and variance $2\sigma^4$ and so by the Central Limit Theorem,\\\\
+$\sqrt{n}\dfrac{(\bar{X}-\sigma^2)}{\sqrt{2}\sigma^2}\xrightarrow{d}\mathcal{N}(0,1)$\\\\
+We can rewrite our original equation as\\\\
+$(\sqrt{n}\dfrac{(\bar{X}-\sigma_0^2)}{\sqrt{2}\sigma_0^2})^2\dfrac{2\sigma_0^4}{\frac{1}{n}\sum_{i=1}^n(X_i^2-\sigma_0^2)^2}$\\\\
+Under $H_0$ we have $E[X_i]=\sigma_0^2$\\\\
+$E[\frac{1}{n}\sum_{i=1}^n(X_i^2-\sigma_0^2)^2]=var[X_i^2]=2\sigma_0^4$ (variance is the 2nd central moment)\\\\
+Thus, as $n\rightarrow\infty$, $\dfrac{2\sigma_0^4}{\frac{1}{n}\sum_{i=1}^n(X_i^2-\sigma_0^2)^2}\rightarrow1$\\\\
+And moreover, by the Central Limit Theorem\\\\
+$\sqrt{n}\dfrac{(\bar{X}-\sigma_0^2)}{\sqrt{2}\sigma^2}\xrightarrow{d}\mathcal{N}(0,1)\Rightarrow(\sqrt{n}\dfrac{(\bar{X}-\sigma_0^2)}{\sqrt{2}\sigma_0^2})^2\xrightarrow{d}\chi_{(1)}^2$\\\\
+Thus by the continuous mapping theorem\\\\
+$\Rightarrow n(\bar{X}-\sigma_0^2)(\frac{1}{n}\sum_{i=1}^n(X_i^2-\sigma_0^2)^2)^{-1}(\bar{X}-\sigma_0^2)\xrightarrow{d}\chi_{(1)}^2$\\\\
+(c) Is the asymptotic distribution the same under $H_1$?\\\\
+No, we utilized the assumption that under $H_0$, the expectation of $\bar{X}$ was $\sigma_0^2$.\\\\
+(d) Provide an extension of the test to the multivariate case!  What is its asymptotic distribution?\\\\
+(see definition above)\\
+Extended to the multivariate case, our test can be written as\\\\
+$n(\hat{\theta})-\theta_0)^t\hat{\Sigma}(\hat{\theta})^{-1}(\hat{\theta}-\theta_0)$\\\\
+$=(\hat{\Sigma}(\hat{\theta})^{-1/2}\sqrt{n}(\hat{\theta}-\theta_0)^t)\cdot(\hat{\Sigma}(\hat{\theta})^{-1/2}\sqrt{n}(\hat{\theta}-\theta_0))$\\\\
+Under $H_0$, we have, by the Central Limit Theorem\\\\ $\hat{\Sigma}(\hat{\theta})^{-1/2}\sqrt{n}(\hat{\theta}-\theta_0)^t\xrightarrow{a}\mathcal{N}(0,I_p)$\\\\
+Thus, we can apply the continuous mapping theorem to see that the asymptotic distribution is $\chi_{(p)}^2$
+\pagebreak
+\section{Cramer-Rao Lower Bound}
+\begin{itemize}
+    \item Definition: Cramer-Rao Lower Bound\\\\
+    Let $\bf{X}=(X_1,...,X_n)$ be a sample with pdf $f(\bf{x}|\theta)$ and let $\hat{\theta}=\hat{\theta}(\bf{X})$ be an estimator such that $E_\theta[\hat{\theta}]$ is differentiable in $\theta$ interchangeably with expectation.  If $var_\theta[\hat{\theta}]<\infty$ then\\\\
+    $var_\theta[\hat{\theta}]\geq\dfrac{(\frac{d}{d\theta}E_\theta[\hat{\theta}])^2}{E_\theta[(\frac{\partial}{\partial\theta}logf(\bf{X}|\theta))^2]}$\\\\
+    Here the denominator is the Fisher information $I(\theta)$
+    \item Definition: Fisher Information\\\\
+    We have two ways to compute the Fisher information $I(\theta)$ which are equivalent (if i.i.d)\\\\
+    i. $nE_\theta[(\frac{\partial}{\partial \theta}logf(X_i|\theta))^2]$\\\\
+    ii. $-nE_\theta[\frac{\partial^2}{\partial \theta^2}logf(X_i|\theta)]$
+\end{itemize}
+Consider a random sample $X_1,...,X_n$ i.i.d $\mathcal{N}(0,\sigma^2)$. And consider $\bar{S}_0^2=n^{-1}\sum_{i=1}^nX_i^2$.\\\\
+(a) Is $\bar{S}_0^2$ an unbiased estimator of $\sigma^2$?\\\\
+Given that we know $\mu=0$, this is an unbiased estimator\\\\
+$E[\bar{S}_0^2]=E[\frac{1}{n}\sum_{i=1}^nX_i^2]=\frac{1}{n}\sum_{i=1}^nE[X_i^2]=\frac{n\sigma^2}{n}=\sigma^2$\\\\
+(b) What is the variance of $\bar{S}_0^2$?\\\
+$var[\bar{S}_0^2]=var[\frac{1}{n}\sum_{i=1}^nX_i^2]=\frac{1}{n^2}\sum_{i=1}^nvar[X_i^2]=\dfrac{n2\sigma^4}{n^2}=\dfrac{2\sigma^4}{n}$\\\\
+(c) Calculate the Cramer Rao lower bound.\\\\
+Since we have an unbiased estimator, the numerator, $(\frac{d}{d\theta}E_\theta[\hat{\theta}])^2=1$\\\\
+We compute our Fisher Information\\\\
+Since we have a random i.i.d. sample, we may use $I(\theta)=-nE_\theta[\frac{\partial^2}{\partial \theta^2}logf(X_i|\theta)]$\\\\
+$logf(X_i|\theta)=log(\dfrac{1}{\sqrt{2\pi\hat{\sigma}^2}}exp\{\dfrac{-x_i^2}{2\hat{\sigma}^2}\})=log(\dfrac{1}{\sqrt{2\pi}})-log(\hat{\sigma})+\dfrac{-x_i^2}{2\hat{\sigma}^2}$\\\\
+$\frac{\partial}{\partial \theta}logf(X_i|\theta)=\dfrac{x_i^2}{2\sigma^4}-\dfrac{1}{2\sigma^2}$\\\\
+$\frac{\partial^2}{\partial \theta^2}logf(X_i|\theta)=\dfrac{1}{2\sigma^4}-\dfrac{x_i^2}{\sigma^6}$\\\\
+$\Rightarrow I(\theta)=-nE_\theta[\dfrac{1}{2\sigma^4}-\dfrac{x_i^2}{\sigma^6}]=-n(\dfrac{1}{2\sigma^4}-{1}{\sigma^4})=\dfrac{n}{2\sigma^4}$\\\\
+Thus, our Cramer Rao Lower Bound is\\\\
+$\dfrac{1}{I(\theta)}=\dfrac{2\sigma^4}{n}$\\\\
+Our estimator $\bar{S}_0^2$ is efficient.
+\pagebreak
+\section{Likelihood Ratio Test and Power Function}
+Consider a random sample $X_1,...,X_n$ i.i.d $\mathcal{N}(\mu,1)$.\\\\
+(a) Derive the MLE for $\mu$.\\\\
+$L(\mu|X_1,...,X_n)=f(X_1,...,X_n,\mu)=\prod_{i=1}^nf(X,\mu)$\\\\
+$=\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi}}exp\{\dfrac{-(x_i-\hat{\mu})^2}{2}\}$\\\\
+We can utilize a log transformation here\\\\
+$log(\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi}}exp\{\dfrac{-(x_i-\hat{\mu})^2}{2}\})=\sum_{i=1}^nlog(\dfrac{1}{\sqrt{2\pi}})+\dfrac{-(x_i-\hat{\mu})^2}{2}$\\\\
+We compute our first order condition with respect to $\mu$\\\\
+$\dfrac{\partial}{\partial\mu}logL(\mu|\textbf{X})=\sum_{i=1}^nx_i-\hat{\mu}=0$\\\\
+$\Rightarrow\hat{\mu}=\dfrac{\sum_{i=1}^nx_i}{n}$\\\\
+(b) Write down the Likelihood Ratio test statistics for $H_0:\mu=\mu_0$ versus $H_1: \mu\neq\mu_0$.\\\\
+$\lambda(\textbf{X})=\dfrac{sup_{\theta\in\Theta_0}L(\theta|\textbf{X})}{sup_{\theta\in\Theta_1}L(\theta|\textbf{X})}=\dfrac{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi}}exp\{\dfrac{-(x_i-\mu_0)^2}{2}\}}{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi}}exp\{\dfrac{-(x_i-\hat{\mu})^2}{2}\}}$\\\\
+(c) Derive the Power function.  What is the probability of the first term error?\\\\
+Our power function is given by $1-\beta(\theta)$\\\\
+First we find the rejection region our our LRT given by $\lambda(\textbf{X})<C$\\\\
+$\lambda(\textbf{X})=\dfrac{sup_{\theta\in\Theta_0}L(\theta|\textbf{X})}{sup_{\theta\in\Theta_1}L(\theta|\textbf{X})}=\dfrac{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi}}exp\{\dfrac{-(x_i-\mu_0)^2}{2}\}}{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi}}exp\{\dfrac{-(x_i-\hat{\mu})^2}{2}\}}$\\\\
+$=exp\{\dfrac{\sum_{i=1}^n(x_i-\hat{\mu})^2-(x_i-\mu_0)^2}{2}\}$\\\\
+$=exp\{\dfrac{\sum_{i=1}^n\hat{\mu}^2-\mu_0^2+2x_i(\mu_0-\hat{\mu})}{2}\}$\\\\
+$=exp\{\dfrac{n}{2}(\hat{\mu}^2-\mu_0^2)+(\mu_0-\hat{\mu})\sum_{i=1}^nx_i\}<C$\\\\
+$\Rightarrow\dfrac{n}{2}(\hat{\mu}^2-\mu_0^2)+(\mu_0-\hat{\mu})\sum_{i=1}^nx_i<log(C)$\\\\
+Suppose $\hat{\mu}^2>\mu_0^2$, then we have
+$\Rightarrow\sum_{i=1}^nx_i>\dfrac{log(C)-\dfrac{n}{2}(\hat{\mu}^2-\mu_0^2)}{(\mu_0-\hat{\mu})}=C^+$\\\\
+Suppose $\hat{\mu}^2<\mu_0^2$, then we have
+$\Rightarrow\sum_{i=1}^nx_i<\dfrac{log(C)-\dfrac{n}{2}(\hat{\mu}^2-\mu_0^2)}{(\mu_0-\hat{\mu})}=C^-$\\\\
+Here, we have a two-tailed test.\\\\
+Given $X_i,...,X_n$ a sequence of random variables with $E[X_i]=\mu_0$ under $H_0$ and finite $Var[X_i]=1$, we can apply the Central Limit Theorem to get\\\\
+$\sqrt{n}(\dfrac{\bar{X_i}-\mu_{X_i}}{\sigma_{X_i}})\xrightarrow{d}\mathcal{N}(0,1)$\\\\
+And so, given $\sum_{i=1}^nx_i>C^+$ (same for other tail) we have \\\\
+$\Rightarrow \sqrt{n}(\frac{\sum_{i=1}x_i}{n}-\mu_0)>\sqrt{n}(\frac{C^+}{n}-\mu_0)=Z^+$\\\\
+$\Rightarrow Z\sim\mathcal{N}(0,1)>Z^+$\\\\
+Thus, our power function and probability of a type I error is given by\\\\
+$\beta(\theta)=P_\theta(\lambda\in R)=P_\theta(\lambda<C)=P_\theta(\mathcal{N}(0,1)>Z^+)+P_\theta(\mathcal{N}(0,1)>Z^-)$\\\\
+(d) Illustrate which values of the test you reject $H_0$ and for which values you fail to reject $H_0$\\\\
+Our rejection region is $\sqrt{n}(\frac{\sum_{i=1}x_i}{n}-\mu_0)>Z^+$ or $\sqrt{n}(\frac{\sum_{i=1}x_i}{n}-\mu_0)<Z^-$\\\\
+We fail to reject if $Z^-\leq\sqrt{n}(\frac{\sum_{i=1}x_i}{n}-\mu_0)\leq Z^+$
+\pagebreak
+\section{Poisson Distribution}
+An i.i.d. sample $X_1,...,X_n$ is taken from a Poisson distribution i.e.\\
+$f((x|\beta)=\dfrac{e^{-\beta}\beta^x}{x!}$\\\\
+for some $\beta>0$ and $x=0,1,2,...$\\\\
+(a) Given that the moment generating function of the Poisson distribution is\\\\
+$M_X(t)=e^{\beta(e^t-1)}$\\\\
+find the mean and variance of $X_i$.\\\\
+$M_X'(t)=e^{\beta(e^t-1)}\beta e^t$\\\\
+$E[X_i]=M_X'(t)|_{t=0}=\beta$\\\\
+$M_X''(t)=e^{\beta(e^t-1)}\beta e^t+e^{\beta(e^t-1)}\beta^2e^2t$\\\\
+$E[X_i^2]=M_X''(t)|_{t=0}=\beta+\beta^2$\\\\
+$var[X_i]=E[X_i^2]-E[X_i]^2=\beta+\beta^2-\beta^2=\beta$\\\\
+(b) Using the method of moments, find an estimator for $\beta$\\\\
+$\hat{\beta}=\frac{1}{n}\sum_{i=1}^nX_i$\\\\
+(c) Find the MLE of $\beta$\\\\
+$logL(\beta|\textbf{X})=log(\prod_{i=1}^n\dfrac{e^{-\beta}\beta^x_i}{x!})=\sum_{i=1}^n(-\beta+x_ilog(\beta)+log(x!))$\\\\
+$\dfrac{\partial}{\partial\beta}logL(\beta|\textbf{X})=\sum_{i=1}^n(-1+\dfrac{x_i}{\beta})=-n+\dfrac{\sum_{i=1}^nx_i}{\beta}$\\\\
+$\Rightarrow \hat{\beta}=\dfrac{\sum_{i=1}^nx_i}{n}$\\\\
+(d) Are your ML and MoM estimators unbiased?\\\\
+$E[\frac{1}{n}\sum_{i=1}^nX_i]=\frac{1}{n}n\beta=\beta$\\\\
+And so our estimators are unbiased.\\\\
+(e) Compute the Cramer Rao Lower Bound.\\\\
+As our estimator is unbiased our CRLB is $\dfrac{1}{I(\theta)}$\\\\
+We compute our Fisher Information\\\\
+$I(\beta)=-nE_\beta[\dfrac{\partial^2}{\partial\beta^2}log(f(X_i|\beta))]$\\\\
+$log(f(X_i|\beta))=-\beta+x_ilog(\beta)+log(x!)$\\\\
+$\dfrac{\partial}{\partial\beta}log(f(X_i|\beta))=1+\dfrac{x_i}{\beta}$\\\\
+$\dfrac{\partial^2}{\partial\beta^2}log(f(X_i|\beta))=\dfrac{-x_i}{\beta^2}$\\\\
+$-nE_\beta[\dfrac{-x_i}{\beta^2}]=\dfrac{n}{\beta}$\\\\
+Thus, our CRLB is $\dfrac{1}{I(\theta)}=\dfrac{\beta}{n}$\\\\
+Thus, our estimators are efficient.
+\pagebreak
+\section{Conditional Heteroskedasticity}
+\begin{itemize}
+    \item Theorem: Jensen's Inequality\\\\
+    For any random variable $X$, if $g$ is a convex function then\\\\
+    $E[g(x)]\geq g(E[X])$
+    \item Theorem: Law of Iterated Expectation\\\\
+    For any random variables $X$ and $Y$ and any function $g$ it holds\\\\
+    $E[g(X)]=E[E[g(X)|Y]]$
+\end{itemize}
+For two random variables $Y$ and $X$, define the conditional variance as $Var[Y|X]=E[(Y-E[Y|X])^2|X]$.\\\\
+(a) Show that $Var[Y|X]=E[Y^2|X]-E[Y|X]^2$.\\\\
+$Var[Y|X]=E[(Y-E[Y|X])^2|X]$\\
+$=E[Y^2-2YE[Y|X]+E[Y|X]^2|X]$\\
+$=E[Y^2|X]-2E[Y|X]^2+E[Y|X]^2]$\\
+$=E[Y^2|X]-E[Y|X]^2$\\\\
+(b) Show that $Var[Y]=E[Var[Y|X]]+Var[E[Y|X]]$.\\\\
+$E[Var[Y|X]]+Var[E[Y|X]]=E[E[Y^2|X]-E[Y|X]^2]+E[E[Y|X]^2]-E[E[Y|X]]^2$\\
+$=E[E[Y^2|X]]-E[E[Y|X]^2]+E[E[Y|X]^2]-E[E[Y|X]]^2$ (LIE)\\
+$=E[Y^2]-E[Y]^2$\\
+$=Var[Y]$\\\\
+(c) Calculate $Var[a+bX^2|X]$ for any constants $a,b>0$.\\\\
+This should be zero, as given knowledge of $X$ our variable becomes a constant.  We can show this manually\\\\
+$Var[a+bX^2|X]=b^2(Var[X^2|X])$\\
+$=b^2(E[X^4|X]-E[X^2|X]^2)$\\
+$=b^2(X^4-X^4)$\\
+$=0$
+(d) Do we have $Var[Y|X]\geq0$?\\\\
+Variance is always non-negative.\\\\
+To prove this instance, consider $Var[Y|X]=E[Y^2|X]-E[Y|X]^2$ and since $g(x)=x^2$ is a convex function, we can apply Jensen's inequality and thus $E[Y^2|X]\geq E[Y|X]^2\Rightarrow Var[Y|X]\geq0$\\\\
+(e) Do we have $Var[Y]\geq Var[Y|X]$?\\\\
+No, conditional variance could in fact be greater than unconditional variance.  We can construct a counterexample to this effect, for example, let $X\sim\mathcal{U}[0,1]$ and let $Y\sim\mathcal{N}(0,X)$, well clearly if $X=0$, the variance is 0 but the unconditional variance of $Y$ is greater than 0. 
+\end{document}
