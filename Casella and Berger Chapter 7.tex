@@ -329,22 +329,7 @@ $\lambda(\textbf{X})=\dfrac{sup_{\theta\in\Theta_0}L(\theta|\textbf{X})}{sup_{\t
 $=exp\{\dfrac{\sum_{i=1}^n(x_i-\hat{\mu})^2-(x_i-\mu_0)^2}{2}\}$\\\\
 $=exp\{\dfrac{\sum_{i=1}^n\hat{\mu}^2-\mu_0^2+2x_i(\mu_0-\hat{\mu})}{2}\}$\\\\
 $=exp\{\dfrac{n}{2}(\hat{\mu}^2-\mu_0^2)+(\mu_0-\hat{\mu})\sum_{i=1}^nx_i\}<C$\\\\
-$\Rightarrow\dfrac{n}{2}(\hat{\mu}^2-\mu_0^2)+(\mu_0-\hat{\mu})\sum_{i=1}^nx_i<log(C)$\\\\
-Suppose $\hat{\mu}^2>\mu_0^2$, then we have
-$\Rightarrow\sum_{i=1}^nx_i>\dfrac{log(C)-\dfrac{n}{2}(\hat{\mu}^2-\mu_0^2)}{(\mu_0-\hat{\mu})}=C^+$\\\\
-Suppose $\hat{\mu}^2<\mu_0^2$, then we have
-$\Rightarrow\sum_{i=1}^nx_i<\dfrac{log(C)-\dfrac{n}{2}(\hat{\mu}^2-\mu_0^2)}{(\mu_0-\hat{\mu})}=C^-$\\\\
-Here, we have a two-tailed test.\\\\
-Given $X_i,...,X_n$ a sequence of random variables with $E[X_i]=\mu_0$ under $H_0$ and finite $Var[X_i]=1$, we can apply the Central Limit Theorem to get\\\\
-$\sqrt{n}(\dfrac{\bar{X_i}-\mu_{X_i}}{\sigma_{X_i}})\xrightarrow{d}\mathcal{N}(0,1)$\\\\
-And so, given $\sum_{i=1}^nx_i>C^+$ (same for other tail) we have \\\\
-$\Rightarrow \sqrt{n}(\frac{\sum_{i=1}x_i}{n}-\mu_0)>\sqrt{n}(\frac{C^+}{n}-\mu_0)=Z^+$\\\\
-$\Rightarrow Z\sim\mathcal{N}(0,1)>Z^+$\\\\
-Thus, our power function and probability of a type I error is given by\\\\
-$\beta(\theta)=P_\theta(\lambda\in R)=P_\theta(\lambda<C)=P_\theta(\mathcal{N}(0,1)>Z^+)+P_\theta(\mathcal{N}(0,1)>Z^-)$\\\\
-(d) Illustrate which values of the test you reject $H_0$ and for which values you fail to reject $H_0$\\\\
-Our rejection region is $\sqrt{n}(\frac{\sum_{i=1}x_i}{n}-\mu_0)>Z^+$ or $\sqrt{n}(\frac{\sum_{i=1}x_i}{n}-\mu_0)<Z^-$\\\\
-We fail to reject if $Z^-\leq\sqrt{n}(\frac{\sum_{i=1}x_i}{n}-\mu_0)\leq Z^+$
+(See Estimation and Inference Notes for remainder of this exercise)
 \pagebreak
 \section{Poisson Distribution}
 An i.i.d. sample $X_1,...,X_n$ is taken from a Poisson distribution i.e.\\
