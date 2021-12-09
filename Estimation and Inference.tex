@@ -1,0 +1,189 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+
+\title{Estimation and Inference}
+\author{Ruochen Zhou}
+\date{December 2021}
+
+\begin{document}
+
+\maketitle
+
+\section{Estimation Methods}
+\begin{itemize}
+    \item Definition: Method of Moments Estimator\\\\
+    Given a sample $x_1,...,X_n$ from an i.i.d. distribution $X_i\sim f(x;\theta)$ where the population parameter $\theta$ belongs to the parameter space $\Theta$.  Typically, the moments of the distribution are functions of this parameters $\theta$\\
+    $$E[X^i]=\mu_i(\theta)\text{ }i=1,...,n$$
+    We replace the $j$-th population mean by $\frac{\sum_{i=1}^nX_i^j}{n}$ for $j=1,...,n$ to get \\
+    $$\frac{\sum_{i=1}^nX_i^j}{n}=\mu_i(\theta)$$
+    The method of moments estimator $\hat{\theta}$ is defined as the solution to this system of equations.
+    \item Definition: Likelihood Function\\\\
+    Given a sample $x_1,...,X_n$, the likelihood function of a parameter $\theta$ is defined by\\
+    $$L(\theta|X_1,...,X_n)=f(X_1,...,X_n,\theta)=\prod_{i=1}^nf(X_i,\theta)$$
+    \item Definition: Maximum Likelihood Estimator\\\\
+    Given a sample $X_1,...,X_n$, the maximum likelihood estimator $\hat{\theta}\in\Theta$ is the parameter value at which the likelihood function attains a maximum.\\
+    $$MLE_{\theta\in\Theta}=sup_{\theta\in\Theta}L(\theta|\textbf{X})$$
+    \item Definition: Least Squares Estimator\\\\
+    Given $(Y_1,X_1),...,(Y_n,X_n)$ a random sample then the Least Squares estimator of $\theta$ is obtained by minimizing\\
+    $$S(\theta)=\sum_{i=1}^n(Y_i-g(X_i,\theta))^2$$\\
+    for some known function $g$
+    \item Example Exercise\\\\
+    Suppose we have an linear regression model such that\\
+    $$g(X_i,\beta)=\beta_0+\beta_1X_i$$\\
+    Find the Least Squares estimators of $\beta_0$ and $\beta_1$.\\\\
+    We want to minimize\\
+    $$S(\beta_0,\beta_1)=\sum_{i=1}^n(Y_i-\beta_0-\beta_1X_i)^2$$\\
+    Taking our first order conditions, we have\\\\
+    $\dfrac{\partial}{\partial\beta_0}S(\beta_0,\beta_1)=\sum_{i=1}^n-2(Y_i-\beta_0-\beta_1X_i)=0$\\\\
+    $\Rightarrow\hat{\beta_0}=\dfrac{\sum_{i=1}^n(Y_i-\beta_1X_i)}{n}$\\\\
+    $\Rightarrow\hat{\beta_0}=\bar{Y}-\beta_1\bar{X}$\\\\
+    $\dfrac{\partial}{\partial\beta_1}S(\beta_0,\beta_1)=\sum_{i=1}^n-2X_i(Y_i-\beta_0-\beta_1X_i)=0$\\\\
+    $\Rightarrow\sum_{i=1}^nX_iY_i-\sum_{i=1}X_i\beta_0-\sum_{i=1}\beta_1X_i^2=0$\\\\
+    $\Rightarrow\sum_{i=1}^nX_iY_i-(\bar{Y}-\beta_1\bar{X})n\bar{X}-\beta_1\sum_{i=1}X_i^2=0$\\\\
+    $\Rightarrow\sum_{i=1}^nX_iY_i-n\bar{X}\bar{Y}-\beta_1(\sum_{i=1}X_i^2-n\bar{X}^2)=0$\\\\
+    $\Rightarrow\hat{\beta_1}=\dfrac{\sum_{i=1}^nX_iY_i-n\bar{X}\bar{Y}}{\sum_{i=1}X_i^2-n\bar{X}^2}=\dfrac{\hat{Cov}(XY)}{\hat{Var}(X)}$\\\\
+\end{itemize}
+\pagebreak
+\section{Evaluation of Estimators}
+\begin{itemize}
+    \item Definition: Mean Square Error\\\\
+    The mean square error (MSE) of an estimator $\hat{\theta}$ of a parameter $\theta$ is the function of $\theta$ defined by\\
+    $$MSE(\hat{\theta})=E_\theta[|\hat{\theta}-\theta|^2]$$
+    \item Definition: Bias Variance Decomposition\\\\
+    $$MSE(\hat{\theta})=E_\theta[|\hat{\theta}-\theta|^2]=Var_\theta(\hat{\theta})+Bias_\theta^2(\hat{\theta})$$\\
+    \emph{Proof}\\
+    $MSE(\hat{\theta})=E_\theta[|\hat{\theta}-\theta|^2]=E_\theta[|(\hat{\theta}-E_\theta[\hat{\theta}])+(E_\theta[\hat{\theta}]-\theta)|^2]$\\\\
+    $=E_\theta[(\hat{\theta}-E_\theta[\hat{\theta}])^2]+E_\theta[(E_\theta[\hat{\theta}]-\theta)^2]+2E_\theta[(\hat{\theta}-E_\theta[\hat{\theta}])(E_\theta[\hat{\theta}]-\theta)]$\\\\
+    $=Var_\theta(\hat{\theta})+Bias_\theta^2(\hat{\theta})$
+    \item Theorem: Cramer-Rao Lower Bound\\\\
+    Let $\textbf{X}$ be a sample with pdf $f(\textbf{x}|\theta)$, and let $\hat{\theta}=\hat{\theta}(\textbf{X})$ be an estimator such that $E_\theta[\hat{\theta}]$ is differentiable in $\theta$ interchangeably with expectation.  If $Var_\theta(\hat{\theta})<\infty$ then\\
+    $$Var_\theta(\hat{\theta})\geq\dfrac{(\dfrac{\partial}{\partial\theta}E_\theta[\hat{\theta}]])^2}{E_\theta[(\dfrac{\partial}{\partial\theta}logf(\textbf{X}|\theta))^2]}$$\\
+    For unbiased estimators, this reduces to\\
+    $$Var_\theta(\hat{\theta})\geq\dfrac{1}{E_\theta[(\dfrac{\partial}{\partial\theta}logf(\textbf{X}|\theta))^2]}$$
+    \item Definition: Fisher Information\\\\
+    The Fisher Information is defined as\\
+    $$I(\theta)=E_\theta[(\dfrac{\partial}{\partial\theta}logf(\textbf{X}|\theta))^2]$$\\
+    This is the denominator of the CRLB.\\\\
+    Given an i.i.d. random sample, we may rewrite this as either\\
+    $$nE_\theta[(\dfrac{\partial}{\partial\theta}logf(x|\theta))^2]$$\\
+    $$-nE_\theta[\dfrac{\partial^2}{\partial\theta^2}logf(x|\theta)]$$
+    \item Definition: Score Function\\\\
+    The Score Function is defined as\\
+    $$\dfrac{\partial}{\partial\theta}logf(\textbf{X}|\theta)$$
+    \item Definition: Efficiency\\\\
+    An estimator $\hat{\theta}$ is efficient if it obtains the CRLB, i.e.\\
+    $$Var_\theta(\hat{\theta})=\dfrac{(\dfrac{\partial}{\partial\theta}E_\theta[\hat{\theta}]])^2}{E_\theta[(\dfrac{\partial}{\partial\theta}logf(\textbf{X}|\theta))^2]}$$\\
+    \item Definition: Asymptotic Efficiency\\\\
+    An estimator $\hat{\theta}$ is asymptotically efficient for $\theta$ if the CRLB is obtained asymptotically, i.e.\\
+    $$\lim_{n\rightarrow\infty}\dfrac{Var_\theta(\hat{\theta})}{CRLB_\theta}=1$$
+    \item Definition: Consistency\\\\
+    An estimator $\hat{\theta}_n$ is consistent for $\theta$ if $\hat{\theta}_n\xrightarrow{p}\theta$, i.e.\\
+    $$\lim_{n\rightarrow\infty}P_\theta[|\hat{\theta}_n-\theta|<\epsilon]=1\text{ for all }\epsilon>0$$
+    \item Theorem: Consistency\\\\
+    Consider an estimator $\hat{\theta}_n$ depending on a sample of size $n$ which satisfies the conditions\\\\
+    I. $\lim_{n\rightarrow\infty}Var_\theta(\hat{\theta}_n)=0$\\
+    II. $\lim_{n\rightarrow\infty}Bias_\theta(\hat{\theta}_n)=0$\\\\
+    Then $\hat{\theta}_n$ is consistent for $\theta$.
+    \item Example Exercise\\\\
+    Given an i.i.d random sample $\{X_i,...,X_n\}$ with $E[X]=\mu$ and finite $Var(X)=\sigma^2$, compute the mean squared error of the estimator\\ $$\hat{\mu}=\dfrac{1}{n}\sum_{i=1}^nx_i$$\\
+    $MSE(\hat{\mu})=E_\mu[|\hat{\mu}-\mu|^2]=E_\mu[|\dfrac{1}{n}\sum_{i=1}^n(x_i-\hat{\mu})|^2]$\\\\
+    $=\dfrac{1}{n^2}E_\mu[\sum_{i=1}^n\sum_{j=1}^n(x_i-\hat{\mu})(x_j-\hat{\mu})]$\\\\
+    $=\dfrac{1}{n^2}(E_\mu[\sum_{i=1}^n(x_i-\hat{\mu})^2]+E_\mu[\sum\sum_{(i\neq j)}(x_i-\hat{\mu})(x_j-\hat{\mu})])$\\\\
+    $=\dfrac{1}{n^2}(n\sigma^2+0)$\\\\
+    $=\dfrac{\sigma^2}{n}=Var_\mu(\hat{\mu})$\\\\
+    From this, we can also conclude from the bias-variance decomposition that this estimator is unbiased.
+    \item Definition: Minimum Variance Unbiased Estimator\\\\
+    An estimator $\hat{\theta}$ is a best unbiased estimator of $\theta\in\Theta$ if it is unbiased and for any other unbiased estimator $\tilde{\theta}$, we have that\\
+    $$Var_\theta(\hat{\theta})\leq Var_\theta(\tilde{\theta})\text{ for all }\theta\in\Theta$$
+    \item Example Exercise\\\\
+    Suppose $X_1,...,X_n$ is a random sample from $\mathcal{N}(0,\sigma^2)$.  An unbiased estimator of $\sigma^2$ is given by\\
+    $$\hat{\sigma}^2=\dfrac{1}{n}\sum_{i=1}^nX_i^2$$\\
+    and we know that the CRLB is given by\\
+    $$CRLB=\dfrac{2\sigma^4}{n}$$\\
+    which coincides with $MSE(\hat{\sigma}^2)$.  Can we construct a biased estmiator with lower variance?\\\\
+    Consider the biased estimator\\
+    $$\hat{\sigma}_\alpha^2=\dfrac{\alpha}{n}\sum_{i=1}^nX_i^2\text{ , }\alpha>0$$\\
+    We compute the MSE of the biased estimator\\\\
+    $MSE(\hat{\sigma}_\alpha^2)=E_{\sigma^2}[(\hat{\sigma}_\alpha^2-\sigma^2)^2]=E_{\sigma^2}[\hat{\sigma}_\alpha^4-2\hat{\sigma}_\alpha^2\sigma^2+\sigma^4]$\\\\
+    $=E_{\sigma^2}[(\dfrac{\alpha}{n}\sum_{i=1}^nX_i^2)^2]-2\alpha\sigma^4+\sigma^4$\\\\
+    $=\dfrac{\alpha^2}{n^2}E_{\sigma^2}[\sum_{i=1}^n\sum_{j=1}^nX_i^2X_j^2]-2\alpha\sigma^4+\sigma^4$\\\\
+    $=\dfrac{\alpha^2}{n^2}E_{\sigma^2}[\sum\sum_{i\neq j}X_i^2X_j^2+\sum_{i=1}^nX_i^4]-2\alpha\sigma^4+\sigma^4$\\\\
+    $=\dfrac{\alpha^2}{n^2}(n(n-1)\sigma^4+3n\sigma^4)-2\alpha\sigma^4+\sigma^4$\\\\
+    $=\sigma^4[\alpha^2(1+\dfrac{2}{n})+1-2\alpha]$\\\\
+    We want to minimize with respect to $\alpha$, thus the first order condition\\\\
+    $\dfrac{\partial}{\partial\alpha}\sigma^4[\alpha^2(1+\dfrac{2}{n})+1-2\alpha]=\sigma^4[2\alpha(1+\dfrac{2}{n})-2]=0$\\\\
+    $\Rightarrow\alpha_{min}=\dfrac{n}{n+2}$\\\\
+    We see that\\\\
+    $MSE(\hat{\sigma}_\alpha_{min}^2)=\dfrac{2\sigma^4}{n+2}<\dfrac{2\sigma^4}{n}=MSE(\hat{\sigma}^2)=CRLB$
+\end{itemize}
+\pagebreak
+\section{Hypothesis Testing}
+\begin{itemize}
+    \item Definition: Hypothesis Testing\\\\
+    Given a family of models of the data $f_X(\textbf{X}|\theta)$ indexed by $\theta\in\Theta$.\\\\
+    A hypothesis is a statement which implies that the true probability distribution (i.e. model) belongs to a subset of  the family of possible probability distributions\\
+    $$\theta\in\Theta_0\in\Theta$$
+    We classify two regions of parameter space\\
+    $$H_0: \theta\in\Theta_0$$
+    $$H_1: \theta\in\Theta_1$$
+    where $\Theta_0\cap\Theta_1\emptyset$\\\\
+    A hypothesis testing procedure (or statistical testing procedure) is a rule which specifies\\
+    I. For which sample values we choose $H_0$\\
+    II. For which sample values we choose $H_1$
+    \item Definition: Power Function\\\\
+    The power function of a hypothesis test with rejection region R is the function of $\theta\in\Theta$ such that\\
+    $$\beta(\theta)=P_\theta(\textbf{X}\in R)$$
+    \item Definition: Uniformly Most Powerful Test\\\\
+    Let $\mathcal{C}$ be a class of tests for testing $H_0:\theta\in\Theta_0$ versus $H_1:\theta\in\Theta_0^c$.  A test in class $\mathcal{C}$, with power function $\beta$, is a uniformly most powerful (UMP) class $\mathcal{C}$ test if\\
+    $$\beta(\theta)\geq\beta'(\theta)\text{ for every }\theta\in\Theta_0^c\text{ and every }\beta'(\cdot)$$
+    \item Theorem: Neyman-Pearson Lemma\\\\
+    Consider testing $H_0:\theta=\theta_0$ versus $H_1:\theta=\theta_1$, using a test with rejection region $R$ that satisfies\\
+    $$\textbf{x}\in R\text{ if }f(\textbf{x}|\theta_1)>cf(\textbf{x}|\theta_0)$$
+    $$\textbf{x}\in R^c\text{ if }f(\textbf{x}|\theta_1)<cf(\textbf{x}|\theta_0)$$\\
+    for some $c>0$ and\\
+    $$\alpha=P_{\theta_0}(\textbf{X}\in R)$$\\
+    Then the test is a UMP level $\alpha$ test.\\\\
+    Consequently, the Neyman-Pearson Lemma implies that the Likelihood Ratio test is UMP for testing a simple (point) hypothesis.
+    \item Example Exercise\\\\
+    Suppose $X_1,...,X_n$ is a random sample from $\mathcal{N}(\mu,1)$.  We consider a test of a simple null $H_0:\mu=\mu_0$ versus $H_1:\mu\neq\mu_0$.\\\\  
+    The likelihood ratio test statistic is thus given by\\\\
+    $\lambda(\textbf{X})=\dfrac{sup_{\mu=\mu_0}L(\theta|\textbf{X})}{sup_{\mu\neq\mu_0}L(\theta|\textbf{X})}=\dfrac{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi}}exp\{\dfrac{-(x_i-\mu_0)^2}{2}\}}{\prod_{i=1}^n\dfrac{1}{\sqrt{2\pi}}exp\{\dfrac{-(x_i-\hat{\mu})^2}{2}\}}$\\\\
+    $=exp\{\sum_{i=1}^n\dfrac{(x_i-\hat{\mu})^2-(x_i-\mu_0)^2}{2}\}$\\\\
+    $=exp\{\dfrac{-\sum_{i=1}^n(x_i^2)+2\mu_0n\bar{x}-n\mu_0^2+\sum_{i=1}^n(x_i^2)-2n\hat{\mu}\bar{x}+n\hat{\mu}^2}{2}\}$\\\\
+    $=exp\{\dfrac{n(2\mu_0\bar{x}-\mu_0^2-\bar{x}^2}{2}\}$\\\\
+    $=exp\{\dfrac{-n(\bar{x}-\mu_0)^2}{2}\}$\\\\
+    The rejection region is given by\\\\
+    $\{\textbf{X}:\lambda(\textbf{X})\leq C\}=\{\textbf{X}:exp\{\dfrac{-n(\bar{x}-\mu_0)^2}{2}\}\leq C\}$\\\\
+    $=\{\textbf{X}:\dfrac{-n(\bar{x}-\mu_0)^2}{2}\leq logC\}$\\\\
+    $=\{\textbf{X}:|\sqrt{n}(\bar{x}-\mu_0)|\geq\sqrt{-2logC}\}$\\\\
+    To construct a test of size $\alpha$, we pick $C$ such that\\\\
+    $P_{\theta_0}(\textbf{X}:\textbf{X}\in R)=P_{\theta_0}(\textbf{X}:\sqrt{n}(\bar{x}-\mu_0)|\geq\sqrt{-2logC})=\alpha$\\\\
+    Under $H_0$ we have by the Central Limit Theorem that\\\\ $\sqrt{n}(\bar{x}-\mu_0)\xrightarrow{d}\mathcal{N}(0,1)$\\\\
+    And thus, this is equivalent to\\\\
+    $P_{\theta_0}(-\sqrt{-2logC})\leq Z\leq\sqrt{-2logC}))=1-\alpha$
+\end{itemize}
+\pagebreak
+\section{Hypothesis Testing: Likelihood Ratio, Wald and Lagrange Multiple}
+\begin{itemize}
+    \item Definition: Likelihood Ratio Test\\\\
+    Given $H_0:\theta\in\Theta_0$ versus $H_1: \theta\in\Theta_1$\\\\
+    The Likelihood Ratio test statistic is given by $\lambda(\textbf{X})$ and has the rejection region $\lambda(\textbf{X})<C$, $0\leq C\leq1$ such that\\
+$$\lambda(\textbf{X})=\dfrac{sup_{\theta\in\Theta_0}L(\theta|\textbf{X})}{sup_{\theta\in\Theta_1}L(\theta|\textbf{X})}$$
+    \item Definition: Wald Test\\\\
+    (univariate)\\
+    Given $H_0: \theta=\theta_0$ versus $H_1: \theta\neq\theta_0$\\\\
+    The Wald test statistic is given by $W(\textbf{X})$ and has the rejection region $W(\textbf{X})>C$ such that\\
+    $$W(\textbf{X})=\dfrac{(\hat{\theta}-\theta_0)^2}{var(\hat{\theta})}$$
+    (multivariate)\\
+    Given $H_0:R\theta=r$ versus $H_1:R\theta\neq r$\\\\
+    The Wald test statistic is given by $W(\textbf{X})$ and has the rejection region $W(\textbf{X})>C$ such that\\
+    $$W(\textbf{X})=(R\hat{\theta}-r)^t(R\hat{V}R')^{-1}(R\hat{\theta}-r)$$
+    where $\hat{V}$ is an estimator of the asymptotic covariance matrix $V$ of $\sqrt{n}(\hat{\theta}-\theta)$
+    \item Theorem: Asymptotic Efficiency of MLE\\\\
+    The MLE $\hat{\theta}$ of $\theta\in\Theta$ satisfies\\
+    $$\sqrt{n}(\hat{\theta}-\theta\xrightarrow{d}\mathcal{N}(0,I^{-1}(\theta))$$
+    Consequently, the asymptotic covariance matrix of the MLE is given by the inverse of the Fisher Information.\\
+    Note that this theorem implies the asymptotic efficiency of the MLE.
+\end{itemize}
+\end{document}
